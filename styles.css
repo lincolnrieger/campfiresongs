@@ -105,6 +105,46 @@ h1 {
 
 .section p { color: var(--muted); }
 
+.section-sub {
+  margin-bottom: 1.5rem;
+}
+
+.song-list {
+  list-style: none;
+  text-align: left;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.song-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.song-list li:hover {
+  background: rgba(255, 122, 24, 0.12);
+  transform: translateX(4px);
+}
+
+.song-title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.song-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: right;
+}
+
 .footer {
   text-align: center;
   padding: 2rem;
