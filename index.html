@@ -3,49 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Campfire Songs — a cozy place for tunes around the fire." />
-  <title>Campfire Songs</title>
+  <meta name="description" content="Campfire Songs — coming soon." />
+  <title>Campfire Songs — Coming Soon</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="hero">
-    <div class="flame">🔥</div>
-    <h1>Campfire Songs</h1>
-    <p class="tagline">Gather round. The good tunes start here.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#songs">Browse Songs</a>
-      <a class="btn btn-ghost" href="#about">Learn More</a>
+  <main class="stage">
+    <div class="campfire" aria-hidden="true">
+      <div class="flames">
+        <span class="flame flame-1"></span>
+        <span class="flame flame-2"></span>
+        <span class="flame flame-3"></span>
+        <span class="flame flame-4"></span>
+      </div>
+      <div class="sparks">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="logs">
+        <span class="log log-left"></span>
+        <span class="log log-right"></span>
+      </div>
     </div>
-    <p class="status">🚀 Deployed on Vercel · GitHub connection working</p>
+
+    <h1>Campfire Songs</h1>
+    <p class="tagline">Something warm is coming. Gather round.</p>
+    <p class="soon">Coming Soon</p>
   </main>
-
-  <section id="songs" class="section">
-    <h2>Songs</h2>
-    <p class="section-sub">A few campfire classics to get everyone singing.</p>
-    <ul class="song-list">
-      <li><span class="song-title">This Land Is Your Land</span><span class="song-meta">Folk · Woody Guthrie</span></li>
-      <li><span class="song-title">Country Roads</span><span class="song-meta">Folk Rock · John Denver</span></li>
-      <li><span class="song-title">Riptide</span><span class="song-meta">Indie · Vance Joy</span></li>
-      <li><span class="song-title">Wagon Wheel</span><span class="song-meta">Country · Old Crow Medicine Show</span></li>
-      <li><span class="song-title">Ho Hey</span><span class="song-meta">Indie Folk · The Lumineers</span></li>
-    </ul>
-  </section>
-
-  <section id="about" class="section">
-    <h2>About</h2>
-    <p>
-      This is a simple landing page used to verify the GitHub &rarr; Vercel
-      deployment pipeline. Push a change, watch it go live.
-    </p>
-  </section>
-
-  <footer class="footer">
-    <p>&copy; <span id="year"></span> Campfire Songs</p>
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
