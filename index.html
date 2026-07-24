@@ -11,18 +11,53 @@
 <body>
   <main class="stage">
     <div class="campfire" aria-hidden="true">
-      <div class="flames">
-        <span class="flame flame-1"></span>
-        <span class="flame flame-2"></span>
-        <span class="flame flame-3"></span>
-        <span class="flame flame-4"></span>
+      <div class="glow"></div>
+
+      <svg class="fire" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.2" />
+          </filter>
+          <radialGradient id="outer" cx="50%" cy="78%" r="62%">
+            <stop offset="0%" stop-color="#ff8a1e" />
+            <stop offset="55%" stop-color="#ff5a00" />
+            <stop offset="100%" stop-color="#c81d00" />
+          </radialGradient>
+          <radialGradient id="mid" cx="50%" cy="80%" r="60%">
+            <stop offset="0%" stop-color="#ffd23f" />
+            <stop offset="60%" stop-color="#ff9500" />
+            <stop offset="100%" stop-color="#ff5a00" />
+          </radialGradient>
+          <radialGradient id="core" cx="50%" cy="82%" r="58%">
+            <stop offset="0%" stop-color="#fff7e0" />
+            <stop offset="55%" stop-color="#ffe27a" />
+            <stop offset="100%" stop-color="#ffb02e" />
+          </radialGradient>
+        </defs>
+
+        <!-- flame path defined once, reused at different scales -->
+        <g filter="url(#soft)" transform="translate(100 210)">
+          <path class="f f-outer" fill="url(#outer)"
+            d="M0,0 C-42,-22 -50,-92 -22,-138 C-8,-162 -10,-192 0,-224
+               C10,-192 8,-162 22,-138 C50,-92 42,-22 0,0 Z" />
+          <path class="f f-mid" fill="url(#mid)"
+            d="M0,0 C-30,-16 -36,-70 -16,-104 C-6,-122 -8,-146 0,-172
+               C8,-146 6,-122 16,-104 C36,-70 30,-16 0,0 Z" />
+          <path class="f f-core" fill="url(#core)"
+            d="M0,0 C-17,-10 -21,-44 -9,-66 C-3,-78 -5,-96 0,-116
+               C5,-96 3,-78 9,-66 C21,-44 17,-10 0,0 Z" />
+        </g>
+      </svg>
+
+      <div class="embers">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
       </div>
-      <div class="sparks">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
+
       <div class="logs">
-        <span class="log log-left"></span>
-        <span class="log log-right"></span>
+        <span class="log log-a"></span>
+        <span class="log log-b"></span>
+        <span class="coals"></span>
       </div>
     </div>
 
