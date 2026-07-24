@@ -44,16 +44,38 @@ function renderLine(line) {
 }
 
 // ---------- Views ----------
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let stopFire = null;
+
+function teardownFire() {
+  if (stopFire) {
+    stopFire();
+    stopFire = null;
+  }
+}
+
 function renderIndex() {
   document.title = "Campfire Songs";
   app.className = "view-index";
   app.innerHTML = "";
 
-  const intro = document.createElement("p");
-  intro.className = "intro";
-  intro.textContent =
-    "Songs worth passing a guitar around for. Pick one, find the key, and let everyone join in.";
-  app.append(intro);
+  const hero = document.createElement("section");
+  hero.className = "hero";
+  hero.innerHTML =
+    '<div class="firepit">' +
+      '<canvas class="fire" aria-hidden="true"></canvas>' +
+      '<div class="logs" aria-hidden="true"><span class="log log-a"></span><span class="log log-b"></span></div>' +
+    "</div>" +
+    '<h1 class="hero-title">Campfire Songs</h1>' +
+    '<p class="hero-sub">Songs worth passing a guitar around for — grab a seat and sing along.</p>';
+  app.append(hero);
+
+  const canvas = hero.querySelector(".fire");
+  import("./fire.js")
+    .then((m) => {
+      if (canvas.isConnected) stopFire = m.initFire(canvas, reduceMotion);
+    })
+    .catch(() => hero.classList.add("no-fire"));
 
   const search = document.createElement("input");
   search.type = "search";
@@ -150,6 +172,7 @@ function renderSong(song) {
 
 // ---------- Router ----------
 function router() {
+  teardownFire();
   const hash = location.hash.replace(/^#/, "");
   const m = hash.match(/^\/song\/(.+)$/);
   if (m && bySlug.has(m[1])) {

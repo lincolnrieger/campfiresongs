@@ -153,4 +153,129 @@ export const songs = [
       },
     ],
   },
+  {
+    title: "Ging Gang Goolie",
+    by: "Traditional Scout Song",
+    key: "C",
+    sections: [
+      {
+        label: "Verse",
+        lines: [
+          "[C]Ging gang goolie goolie goolie goolie [G7]watcha,",
+          "Ging gang [C]goo, ging gang [G7]goo.",
+          "[C]Ging gang goolie goolie goolie goolie [G7]watcha,",
+          "Ging gang [C]goo, ging gang goo.",
+        ],
+      },
+      {
+        label: "Verse",
+        lines: [
+          "[C]Hayla, hayla shayla, hayla shayla, [G7]hayla, hoo.",
+          "[C]Hayla, hayla shayla, hayla shayla, [G7]hayla, hoo.",
+          "[C]Shally wally, shally wally, shally wally, shally wally,",
+          "[G7]Oompah, oompah, oompah, [C]oompah.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "A Peanut Sat on a Railroad Track",
+    by: "Traditional",
+    key: "C",
+    sections: [
+      {
+        label: "Verse",
+        lines: [
+          "A [C]peanut sat on a [G7]railroad track,",
+          "His heart was all a-[C]flutter.",
+          "Round the [C]bend came [F]number [C]ten —",
+          "Toot, toot! [G7]Peanut [C]butter!",
+        ],
+      },
+    ],
+  },
+  {
+    title: "A Ram Sam Sam",
+    by: "Traditional (Morocco)",
+    key: "C",
+    sections: [
+      {
+        label: "Verse",
+        lines: [
+          "A [C]ram sam sam, a [G7]ram sam sam,",
+          "[C]Guli guli guli guli guli [G7]ram sam [C]sam.",
+          "A [C]ram sam sam, a [G7]ram sam sam,",
+          "[C]Guli guli guli guli guli [G7]ram sam [C]sam.",
+        ],
+      },
+      {
+        label: "Verse",
+        lines: [
+          "A [F]rafi, a [C]rafi,",
+          "[C]Guli guli guli guli guli [G7]ram sam [C]sam.",
+          "A [F]rafi, a [C]rafi,",
+          "[C]Guli guli guli guli guli [G7]ram sam [C]sam.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Found a Peanut",
+    by: "Traditional",
+    key: "C",
+    sections: [
+      {
+        label: "Verse",
+        lines: [
+          "[C]Found a peanut, found a peanut,",
+          "[G7]Found a peanut just [C]now,",
+          "Just now I [C7]found a [F]peanut,",
+          "[C]Found a pea[G7]nut just [C]now.",
+        ],
+      },
+      {
+        label: "Verse",
+        lines: [
+          "[C]Cracked it open, cracked it open,",
+          "[G7]Cracked it open just [C]now,",
+          "Just now I [C7]cracked it [F]open,",
+          "[C]Cracked it [G7]open just [C]now.",
+        ],
+      },
+      {
+        label: "Verse",
+        lines: [
+          "[C]It was rotten, it was rotten,",
+          "[G7]It was rotten just [C]now,",
+          "Just now it [C7]was so [F]rotten,",
+          "[C]It was [G7]rotten just [C]now.",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Waltzing Matilda",
+    by: "Banjo Paterson, 1895",
+    key: "C",
+    sections: [
+      {
+        label: "Verse",
+        lines: [
+          "Once a [C]jolly swagman [G7]camped by a billa[C]bong,",
+          "Under the [F]shade of a coolibah [C]tree,",
+          "And he [C]sang as he watched and [G7]waited till his billy [C]boiled,",
+          "\"You'll come a-[G7]waltzing, Ma[C]tilda, with me.\"",
+        ],
+      },
+      {
+        label: "Chorus",
+        lines: [
+          "[F]Waltzing Ma[C]tilda, [G7]Waltzing Ma[C]tilda,",
+          "\"You'll come a-[F]waltzing, Ma[C]tilda, with [G7]me,\"",
+          "And he [C]sang as he watched and [G7]waited till his billy [C]boiled,",
+          "\"You'll come a-[G7]waltzing, Ma[C]tilda, with me.\"",
+        ],
+      },
+    ],
+  },
 ];
