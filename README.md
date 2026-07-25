@@ -1,17 +1,31 @@
 # Campfire Songs
 
-A single "coming soon" page with a pixel-art campfire.
+A small, modern web app for singing around the fire — lyrics and chords, with
+a sign-in and per-user favourites.
+
+## Features
+
+- **Songs**: I Met a Bear, Ging Gang Goolie, A Peanut Sat on a Railway Track,
+  A Ram Sam Sam (all traditional / public domain).
+- **Sign in**: create an account or continue as a guest.
+- **Favourites**: star songs; saved per account (guests get their own list).
+- **Chords over lyrics** with a "Hide chords" reading toggle.
+- Animated flame, responsive/mobile-friendly, no build step.
+
+## Accounts are on-device only
+
+There is no backend. Accounts, password hashes, and favourites all live in the
+browser's `localStorage` (`auth.js`). This is a prototype sign-in, **not real
+authentication** — the login screen says as much. A future version would move
+this to a real auth provider and database.
 
 ## Files
 
-- `index.html` — the page
-- `styles.css` — layout and type
-- `fire.js` — the pixel fire
-
-The fire is a small cellular fire simulation rendered on a 56×76 canvas and
-scaled up with `image-rendering: pixelated`, so it stays crisply 8-bit. A
-flame-shaped envelope keeps the silhouette tidy, and it honours
-`prefers-reduced-motion` by settling to a still frame. No dependencies.
+- `index.html` — app shell
+- `app.js` — routing, views, chord rendering
+- `auth.js` — on-device accounts + favourites
+- `songs.js` — song data (add a song by appending to the array)
+- `styles.css` — styling
 
 ## Deploying on Vercel
 
@@ -21,6 +35,5 @@ the connected branch triggers a new deployment.
 ## Local preview
 
 ```bash
-python3 -m http.server 3000
-# then visit http://localhost:3000
+python3 -m http.server 3000   # then visit http://localhost:3000
 ```
