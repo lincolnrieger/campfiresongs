@@ -1,286 +1,61 @@
-:root {
-  --paper: #f7f2e7;
-  --paper-2: #fdfaf3;
-  --ink: #2c2620;
-  --muted: #8b8172;
-  --rule: rgba(44, 38, 32, 0.12);
-  --ember: #b6480f;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-  --mono: "SF Mono", "JetBrains Mono", "Menlo", Consolas, monospace;
-}
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { -webkit-text-size-adjust: 100%; }
+:root {
+  --bg: #0e0c0b;
+  --bg-2: #1a1410;
+  --ember: #ff8a2b;
+  --ink: #f4e7d6;
+}
+
+html, body { height: 100%; }
 
 body {
-  font-family: var(--serif);
-  color: var(--ink);
-  background: var(--paper);
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
+  background:
+    radial-gradient(120% 80% at 50% 60%, #201510 0%, var(--bg) 70%);
+  color: #f4e7d6;
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- Masthead ---------- */
-.masthead {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 2.4rem 1.5rem 1.2rem;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--ink);
-  text-decoration: none;
-  font-size: 1.15rem;
-  letter-spacing: 0.01em;
-}
-
-.brand .mark { color: var(--ember); flex: none; }
-.brand span { font-weight: 600; }
-
-/* ---------- Layout ---------- */
-main {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 3rem;
-}
-
-/* ---------- Home hero (animated fire) ---------- */
-.hero {
-  position: relative;
-  border-radius: 16px;
-  padding: 1.6rem 1.5rem 2rem;
-  margin: 0.5rem 0 2rem;
-  text-align: center;
-  overflow: hidden;
-  color: #f0e6d6;
-  background:
-    radial-gradient(120% 95% at 50% 100%, #2a1509 0%, #160d07 55%, #100a06 100%);
-  border: 1px solid rgba(182, 72, 15, 0.28);
-  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.5);
-}
-
-.firepit {
-  position: relative;
-  width: 220px;
-  height: 210px;
-  margin: 0 auto;
-}
-.firepit .fire {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 0 26px rgba(255, 120, 30, 0.45));
-}
-/* fallback if WebGL/import fails: a quiet ember glow, no broken canvas */
-.hero.no-fire .firepit {
-  background: radial-gradient(circle at 50% 78%, rgba(255,120,30,0.5), transparent 60%);
-}
-
-.firepit .logs {
-  position: absolute;
-  left: 50%;
-  bottom: 34px;
-  width: 130px;
-  height: 30px;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-.firepit .log {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 104px;
-  height: 17px;
-  border-radius: 9px;
-  background: linear-gradient(180deg, #6e4227, #4a2c19);
-  box-shadow: inset 0 -3px 5px rgba(0,0,0,0.5), 0 0 18px rgba(255,90,0,0.35);
-}
-.firepit .log-a { transform: translateX(-52%) rotate(10deg); }
-.firepit .log-b { transform: translateX(-48%) rotate(-10deg); }
-
-.hero-title {
-  position: relative;
-  font-size: clamp(2rem, 6vw, 2.7rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-top: 0.3rem;
-}
-.hero-sub {
-  position: relative;
-  color: #c9baa4;
-  font-style: italic;
-  font-size: 1.05rem;
-  max-width: 30ch;
-  margin: 0.5rem auto 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .firepit .fire { filter: drop-shadow(0 0 22px rgba(255, 120, 30, 0.4)); }
-}
-
-.search {
-  width: 100%;
-  font: inherit;
-  font-size: 1rem;
-  color: var(--ink);
-  background: var(--paper-2);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 0.7rem 0.9rem;
-  margin-bottom: 1.6rem;
-}
-.search::placeholder { color: var(--muted); }
-.search:focus {
-  outline: none;
-  border-color: var(--ember);
-  box-shadow: 0 0 0 3px rgba(182, 72, 15, 0.12);
-}
-
-.song-list { list-style: none; }
-
-.song-list a {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.95rem 0.25rem;
-  border-bottom: 1px solid var(--rule);
-  text-decoration: none;
-  color: var(--ink);
-  transition: color 0.12s ease;
-}
-.song-list li:first-child a { border-top: 1px solid var(--rule); }
-.song-list a:hover .s-title { color: var(--ember); }
-
-.s-title { font-size: 1.24rem; }
-.s-meta {
-  text-align: right;
-  flex: none;
+.stage {
+  min-height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
-}
-.s-by { color: var(--muted); font-size: 0.92rem; font-style: italic; }
-.s-key { color: var(--muted); font-size: 0.82rem; letter-spacing: 0.02em; }
-
-.no-results { color: var(--muted); font-style: italic; padding: 1rem 0.25rem; }
-
-/* ---------- Song view ---------- */
-.back {
-  display: inline-block;
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.95rem;
-  margin-bottom: 1.6rem;
-}
-.back:hover { color: var(--ember); }
-
-.song-head h1 {
-  font-size: clamp(1.9rem, 5vw, 2.5rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-}
-.song-meta {
-  color: var(--muted);
-  font-style: italic;
-  margin-top: 0.4rem;
-  font-size: 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
 }
 
-.toggle {
-  font: inherit;
-  font-size: 0.85rem;
-  color: var(--muted);
-  background: transparent;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  margin: 1.4rem 0 0.4rem;
-  cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease;
+/* the pixel fire: scaled up with hard edges so pixels stay crisp */
+#fire {
+  width: 224px;                 /* 56 * 4 */
+  height: 304px;                /* 76 * 4 */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 26px rgba(255, 120, 30, 0.35));
+  margin-bottom: 1.5rem;
 }
-.toggle:hover { color: var(--ember); border-color: var(--ember); }
 
-.song-body { margin-top: 1.4rem; }
-
-.section { margin: 1.8rem 0; }
-
-.section-label {
-  font-family: var(--serif);
-  font-size: 0.72rem;
+.title {
+  font-size: clamp(1.4rem, 5vw, 2.1rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted);
-  margin-bottom: 0.7rem;
+  letter-spacing: 0.22em;
+  color: #ffd9a8;
+  text-shadow: 0 0 18px rgba(255, 138, 43, 0.45);
 }
 
-/* choruses get a quiet marker so they stand apart when flipping through */
-.section.chorus {
-  padding-left: 1rem;
-  border-left: 2px solid rgba(182, 72, 15, 0.35);
+.soon {
+  margin-top: 0.9rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  /* nudge right to visually offset the wide tracking on the last letter */
+  text-indent: 0.5em;
+  color: #b89b7d;
 }
 
-/* ---------- Chords over lyrics ---------- */
-.line {
-  font-size: 1.15rem;
-  line-height: 1.35;
-  margin: 0.05rem 0;
-}
-.line.blank { height: 0.9rem; }
-
-.seg {
-  display: inline-block;
-  vertical-align: bottom;
-}
-.chord {
-  display: block;
-  height: 1.25em;
-  line-height: 1.25em;
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--ember);
-  white-space: pre;
-}
-.lyric { white-space: pre; }
-
-/* reading mode: chords hidden, lines tighten up */
-.hide-chords .chord { display: none; }
-.hide-chords .line { line-height: 1.7; }
-
-/* ---------- Footer ---------- */
-.site-foot {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 1.5rem 1.5rem 3rem;
-  border-top: 1px solid var(--rule);
-  color: var(--muted);
-  font-size: 0.88rem;
-  font-style: italic;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 460px) {
-  .song-list a { flex-direction: column; gap: 0.15rem; }
-  .s-meta { text-align: left; flex-direction: row; gap: 0.6rem; }
-}
-
-/* ---------- Dark theme for late-night singalongs ---------- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #17140f;
-    --paper-2: #1e1a13;
-    --ink: #ece3d4;
-    --muted: #9a8f7d;
-    --rule: rgba(236, 227, 212, 0.14);
-    --ember: #e5843c;
-  }
+@media (min-width: 640px) {
+  #fire { width: 280px; height: 380px; }  /* 56*5 × 76*5 */
 }

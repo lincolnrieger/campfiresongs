@@ -1,130 +1,133 @@
-// Procedural campfire for the home hero. Loaded on demand (dynamic import)
-// so song pages stay lightweight. Returns a stop() to cancel the loop.
-import * as THREE from "./vendor/three.module.min.js";
+// Pixel-art campfire — a low-resolution cellular fire simulation drawn on a
+// tiny canvas and scaled up with crisp (non-smoothed) pixels, so it reads as
+// deliberate 8-bit art rather than a blurry gradient.
 
-export function initFire(canvas, reduce = false) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setClearColor(0x000000, 0);
+const W = 56; // fire grid width, in pixels
+const H = 76; // fire grid height, in pixels
+const SEED_Y = 60; // row the flames rise from (top of the log pile)
+const SEED_X0 = 19; // seed spans these columns — this sets the flame's base width
+const SEED_X1 = 37;
+const CX = 28; // flame centre column
+const BASE_HALF = 10; // half-width of the flame at its base (tapers to a point)
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const canvas = document.getElementById("fire");
+const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
 
-  const uniforms = {
-    uTime: { value: 0 },
-    uRes: { value: new THREE.Vector2(1, 1) },
-  };
+// Classic 37-step fire palette: near-black → red → orange → yellow → white.
+// Index 0 is drawn transparent so the flame has no black backing box.
+const PALETTE = [
+  [7, 7, 7], [31, 7, 7], [47, 15, 7], [71, 15, 7], [87, 23, 7], [103, 31, 7],
+  [119, 31, 7], [143, 39, 7], [159, 47, 7], [175, 63, 7], [191, 71, 7],
+  [199, 71, 7], [223, 79, 7], [223, 87, 7], [223, 87, 7], [215, 95, 7],
+  [215, 95, 7], [215, 103, 15], [207, 111, 15], [207, 119, 15], [207, 127, 15],
+  [207, 135, 23], [199, 135, 23], [199, 143, 23], [199, 151, 31], [191, 159, 31],
+  [191, 159, 31], [191, 167, 39], [191, 167, 39], [191, 175, 47], [183, 175, 47],
+  [183, 183, 47], [183, 183, 55], [207, 207, 111], [223, 223, 159],
+  [239, 239, 199], [255, 255, 255],
+];
+const MAX = PALETTE.length - 1;
 
-  const material = new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms,
-    vertexShader: /* glsl */ `
-      varying vec2 vUv;
-      void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
-    `,
-    fragmentShader: /* glsl */ `
-      precision highp float;
-      varying vec2 vUv;
-      uniform float uTime;
-      uniform vec2 uRes;
+const fire = new Uint8Array(W * H); // heat value (palette index) per cell
+const img = ctx.createImageData(W, H);
 
-      vec2 hash(vec2 p) {
-        p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
-        return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
-      }
-      float noise(vec2 p) {
-        vec2 i = floor(p); vec2 f = fract(p);
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(mix(dot(hash(i + vec2(0.0, 0.0)), f - vec2(0.0, 0.0)),
-                       dot(hash(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0)), u.x),
-                   mix(dot(hash(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0)),
-                       dot(hash(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0)), u.x), u.y);
-      }
-      float fbm(vec2 p) {
-        float v = 0.0, a = 0.5;
-        for (int i = 0; i < 6; i++) { v += a * noise(p); p *= 2.02; a *= 0.5; }
-        return v;
-      }
-
-      void main() {
-        vec2 uv = vUv;
-        float aspect = uRes.x / uRes.y;
-        vec2 p = vec2((uv.x - 0.5) * aspect, uv.y);
-        float t = uTime;
-
-        vec2 q = vec2(p.x * 2.2, p.y * 1.4 - t * 0.9);
-        float n = fbm(q + fbm(q + t * 0.15));
-
-        float sway = 0.045 * sin(p.y * 3.4 + t * 1.6) * (0.3 + p.y);
-        float x = p.x + sway + 0.06 * n;
-
-        float width = mix(0.46, 0.03, pow(smoothstep(0.0, 1.05, uv.y), 0.72));
-        float body = 1.0 - smoothstep(0.0, width, abs(x));
-
-        float base = smoothstep(-0.02, 0.12, uv.y);
-        float top = 1.0 - smoothstep(0.66, 1.04, uv.y);
-        float flame = body * base * top;
-        flame *= 0.82 + 0.55 * n;
-        flame = clamp(flame, 0.0, 1.0);
-
-        float heat = flame * (1.35 - 0.45 * uv.y);
-        vec3 col = vec3(0.0);
-        col = mix(col, vec3(0.6, 0.05, 0.0), smoothstep(0.05, 0.35, heat));
-        col = mix(col, vec3(1.0, 0.35, 0.0), smoothstep(0.30, 0.60, heat));
-        col = mix(col, vec3(1.0, 0.75, 0.15), smoothstep(0.55, 0.85, heat));
-        col = mix(col, vec3(1.0, 0.96, 0.78), smoothstep(0.85, 1.15, heat));
-
-        float sparks = 0.0;
-        for (int i = 0; i < 3; i++) {
-          float fi = float(i);
-          float sy = fract(uv.y * 1.3 + t * (0.5 + fi * 0.17) + fi * 0.37);
-          float s = noise(vec2(p.x * 3.0, sy * 8.0) + fi * 13.0);
-          sparks += smoothstep(0.75, 1.0, s) * (1.0 - uv.y) * base;
-        }
-        col += vec3(1.0, 0.7, 0.3) * sparks * 0.9;
-
-        float alpha = clamp(flame + sparks, 0.0, 1.0);
-        alpha = max(alpha, flame * 0.6);
-        gl_FragColor = vec4(col, alpha);
-      }
-    `,
-  });
-
-  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-  scene.add(quad);
-
-  function resize() {
-    const r = canvas.getBoundingClientRect();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(r.width, r.height, false);
-    uniforms.uRes.value.set(r.width, r.height);
+function seed() {
+  for (let x = SEED_X0; x <= SEED_X1; x++) {
+    // hottest in the middle, cooler toward the edges → a rounded base
+    const edge = Math.min(x - SEED_X0, SEED_X1 - x);
+    let heat = MAX - Math.max(0, 3 - edge) * 2;
+    // gentle random flicker so the fire never sits perfectly still
+    if (Math.random() < 0.22) heat -= 2 + ((Math.random() * 3) | 0);
+    fire[SEED_Y * W + x] = Math.max(0, heat);
   }
-  window.addEventListener("resize", resize);
-  resize();
+}
 
-  const clock = new THREE.Clock();
-  let raf = 0;
-  let stopped = false;
-
-  function frame() {
-    if (stopped) return;
-    uniforms.uTime.value = clock.getElapsedTime();
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(frame);
+function spread(src) {
+  const px = fire[src];
+  if (px === 0) {
+    fire[src - W] = 0;
+    return;
   }
+  const drift = ((Math.random() * 3) | 0) - 1; // -1, 0, +1 — symmetric, no lean
+  const cool = Math.random() < 0.58 ? 1 : 0;
+  const above = src - W + drift;
+  if (above >= 0) fire[above] = Math.max(0, px - cool);
+}
 
-  if (reduce) {
-    uniforms.uTime.value = 2.0;
-    renderer.render(scene, camera);
-  } else {
-    frame();
+// Crop heat to a flame-shaped envelope: wide at the base, pinching to a point
+// at the top. Keeps the interior pixel churn but gives a deliberate silhouette.
+function shape() {
+  for (let y = 0; y <= SEED_Y; y++) {
+    const hf = (SEED_Y - y) / SEED_Y; // 0 at base → 1 at top
+    const half = 1 + (1 - hf) * (BASE_HALF - 1);
+    for (let x = 0; x < W; x++) {
+      const over = Math.abs(x - CX) - half;
+      if (over > 0) {
+        const i = y * W + x;
+        if (fire[i] > 0) fire[i] = over > 1.5 ? 0 : Math.max(0, fire[i] - 9);
+      }
+    }
   }
+}
 
-  return function stop() {
-    stopped = true;
-    cancelAnimationFrame(raf);
-    window.removeEventListener("resize", resize);
-    material.dispose();
-    quad.geometry.dispose();
-    renderer.dispose();
-  };
+function step() {
+  seed();
+  for (let x = 0; x < W; x++) {
+    for (let y = 1; y <= SEED_Y; y++) spread(y * W + x);
+  }
+  shape();
+}
+
+// --- pixel logs, drawn crisp on top of the flame ---
+function px(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+}
+function log(x0, y0, x1, y1, color) {
+  const steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
+  for (let i = 0; i <= steps; i++) {
+    const x = Math.round(x0 + ((x1 - x0) * i) / steps);
+    const y = Math.round(y0 + ((y1 - y0) * i) / steps);
+    px(x, y, 3, 3, color);
+  }
+}
+function drawLogs() {
+  log(16, 67, 42, 61, "#5a3720"); // back log
+  log(16, 61, 42, 67, "#6f452a"); // front log
+  px(20, 61, 2, 2, "#3d2416"); // log ends (grain)
+  px(37, 65, 2, 2, "#3d2416");
+  px(27, 60, 3, 2, "#d8571a"); // ember where they cross
+}
+
+function render() {
+  const d = img.data;
+  for (let i = 0; i < W * H; i++) {
+    const c = PALETTE[fire[i]];
+    const o = i * 4;
+    d[o] = c[0];
+    d[o + 1] = c[1];
+    d[o + 2] = c[2];
+    d[o + 3] = fire[i] === 0 ? 0 : 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  drawLogs();
+}
+
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (reduce) {
+  for (let i = 0; i < 90; i++) step(); // settle to a steady flame, then hold
+  render();
+} else {
+  let last = 0;
+  function loop(t) {
+    if (t - last > 32) {
+      // ~30 fps for a chunky, retro cadence
+      step();
+      render();
+      last = t;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
 }

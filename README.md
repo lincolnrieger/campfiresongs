@@ -1,39 +1,17 @@
 # Campfire Songs
 
-A small, readable songbook for singing around the fire — lyrics with chords,
-built to be calm and easy on the eyes.
+A single "coming soon" page with a pixel-art campfire.
 
-## What's here
+## Files
 
-- **`index.html`** — app shell (masthead + footer)
-- **`app.js`** — client-side routing, search, and the ChordPro-lite renderer
-  that lays chords above the lyrics
-- **`songs.js`** — the song data; add a song by appending to this array
-- **`styles.css`** — the warm "paper" songbook design (light + dark)
+- `index.html` — the page
+- `styles.css` — layout and type
+- `fire.js` — the pixel fire
 
-All songs are traditional / public domain.
-
-## Adding a song
-
-Append an entry to the `songs` array in `songs.js`:
-
-```js
-{
-  title: "Song Title",
-  by: "Traditional",
-  key: "G",
-  sections: [
-    { label: "Verse", lines: [
-      "First [G]line with a [C]chord",
-      "Second [D]line",
-    ]},
-    { label: "Chorus", lines: [ /* ... */ ] },
-  ],
-}
-```
-
-Put a `[Chord]` marker right before the syllable it lands on. A section
-labelled "Chorus" is set off with a quiet accent rule automatically.
+The fire is a small cellular fire simulation rendered on a 56×76 canvas and
+scaled up with `image-rendering: pixelated`, so it stays crisply 8-bit. A
+flame-shaped envelope keeps the silhouette tidy, and it honours
+`prefers-reduced-motion` by settling to a still frame. No dependencies.
 
 ## Deploying on Vercel
 
