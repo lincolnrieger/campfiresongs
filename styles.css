@@ -4,26 +4,33 @@ html, body { height: 100%; }
 
 body {
   background: radial-gradient(130% 90% at 50% 62%, #251611 0%, #130d0a 68%);
+  background-attachment: fixed;
   color: #f4e7d6;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 .stage {
-  min-height: 100%;
+  min-height: 100vh;      /* fallback */
+  min-height: 100svh;     /* stable on mobile — ignores browser chrome resize */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
   text-align: center;
+  padding: 2rem calc(1.25rem + env(safe-area-inset-right))
+           2rem calc(1.25rem + env(safe-area-inset-left));
 }
 
 /* ---------- Flame ---------- */
+/* one responsive size drives everything, so it scales down on phones */
 .flame-wrap {
+  --fw: clamp(88px, 26vw, 120px);
   position: relative;
-  width: 150px;
-  height: 200px;
+  width: calc(var(--fw) * 1.25);
+  height: calc(var(--fw) * 1.667);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -35,8 +42,8 @@ body {
   position: absolute;
   left: 50%;
   bottom: 6px;
-  width: 150px;
-  height: 90px;
+  width: calc(var(--fw) * 1.25);
+  height: calc(var(--fw) * 0.75);
   transform: translateX(-50%);
   background: radial-gradient(circle, rgba(255, 120, 30, 0.45), transparent 68%);
   filter: blur(6px);
@@ -45,8 +52,8 @@ body {
 }
 
 .flame {
-  width: 120px;
-  height: 160px;
+  width: var(--fw);
+  height: calc(var(--fw) * 1.333);
   transform-origin: 50% 92%;
   filter: drop-shadow(0 6px 26px rgba(255, 100, 20, 0.45));
   animation: flame-breathe 2.6s ease-in-out infinite;
@@ -85,8 +92,9 @@ body {
 
 /* ---------- Text ---------- */
 .title {
-  font-size: clamp(1.9rem, 6vw, 2.7rem);
+  font-size: clamp(1.8rem, 8vw, 2.7rem);
   font-weight: 600;
+  line-height: 1.1;
   letter-spacing: -0.01em;
   background: linear-gradient(180deg, #ffe9c2, #ff9d3d);
   -webkit-background-clip: text;
@@ -96,11 +104,12 @@ body {
 
 .soon {
   margin-top: 0.9rem;
-  font-size: 0.78rem;
+  font-size: clamp(0.68rem, 3vw, 0.78rem);
   text-transform: uppercase;
   letter-spacing: 0.42em;
-  text-indent: 0.42em;
+  text-indent: 0.42em;   /* offsets the trailing letter's space so it stays centred */
   color: #a8927a;
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
