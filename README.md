@@ -26,6 +26,14 @@ this to a real auth provider and database.
 - `auth.js` — on-device accounts + favourites
 - `songs.js` — song data (add a song by appending to the array)
 - `styles.css` — styling
+- `attendance/` — barcode attendance system (see `attendance/README.md`)
+
+## Barcode attendance
+
+`attendance/` is a separate, self-contained prototype for tracking who is on
+site and who is off site on a bus, using printed Code 128 badges and an
+ordinary USB barcode scanner. Open `/attendance/` and see
+[`attendance/README.md`](attendance/README.md).
 
 ## Deploying on Vercel
 

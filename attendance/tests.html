@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camp Attendance — self-checks</title>
+  <link rel="stylesheet" href="attendance.css" />
+  <style>
+    #app { padding-top: 1.5rem; }
+    h1 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+    #summary { font-size: 1.1rem; margin: 0.75rem 0 1.25rem; }
+    .good { color: var(--ok); }
+    .bad { color: var(--bad); }
+    #results { list-style: none; }
+    #results li {
+      display: grid; grid-template-columns: 3.6rem 1fr; gap: 0.75rem;
+      padding: 0.45rem 0; border-top: 1px solid var(--border);
+    }
+    #results span { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; }
+    #results em { display: block; font-style: normal; font-size: 0.85rem; color: var(--bad); }
+    .sample { margin-top: 2rem; }
+    .sample svg { background: #fff; border-radius: 8px; padding: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Camp Attendance — self-checks</h1>
+    <p class="muted">Checks the barcode encoder and the scan rules. Your camp data is
+      saved and restored around these tests, so running this is safe.</p>
+    <p id="summary">Running…</p>
+    <ul id="results"></ul>
+
+    <div class="sample">
+      <h1>Sample barcode</h1>
+      <p class="muted">Scan this with your reader — it should type <code>SC0001</code> and press Enter.</p>
+      <div id="sample"></div>
+    </div>
+
+    <p style="margin-top:2rem"><a class="btn-ghost" href="index.html">← Back to the app</a></p>
+  </div>
+  <script type="module" src="tests.js"></script>
+  <script type="module">
+    import { toSVG } from "./barcode.js";
+    document.getElementById("sample").innerHTML = toSVG("SC0001", { height: 90, moduleWidth: 3 });
+  </script>
+</body>
+</html>
