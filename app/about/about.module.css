@@ -1,0 +1,48 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+  gap: var(--space-6);
+}
+
+.side {
+  padding-top: var(--space-6);
+  color: var(--glow);
+}
+
+.tent {
+  color: var(--flame);
+  opacity: 0.85;
+  transform: rotate(-3deg);
+  filter: drop-shadow(0 6px 18px rgb(242 107 29 / calc(var(--lit) * 0.6)));
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.2;
+  margin-top: var(--space-4);
+}
+
+.cite {
+  color: var(--ash);
+  font-size: var(--step--1);
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .side {
+    padding-top: 0;
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .tent {
+    width: 64px;
+    height: 64px;
+  }
+}
