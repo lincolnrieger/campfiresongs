@@ -1,0 +1,31 @@
+/* Foundation styles. The full design system arrives in phase 3. */
+:root {
+  --night: #0d0b12;
+  --deep-sky: #161320;
+  --coal: #221c24;
+  --ember: #f26b1d;
+  --flame: #ffb347;
+  --glow: #ffd9a0;
+  --ash: #b8aea3;
+  --cream: #f3e9d7;
+  --fire-light: 0.9;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* The sky lives on <html> so the fixed starfield (z-index -1) can sit above it. */
+html {
+  background: linear-gradient(to bottom, var(--night) 0%, var(--deep-sky) 70%, #1d1418 100%) fixed var(--night);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--cream);
+  font-family: Georgia, "Times New Roman", serif;
+}

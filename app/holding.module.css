@@ -1,0 +1,15 @@
+.main {
+  position: relative;
+  min-height: 100svh;
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  padding: 18vh 8vw 0;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  letter-spacing: -0.01em;
+  pointer-events: none;
+  text-shadow: 0 0.18em 0.5em rgb(242 107 29 / calc(var(--fire-light) * 0.35));
+}

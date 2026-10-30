@@ -1,0 +1,55 @@
+/* Fills its nearest positioned ancestor. */
+.fire {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+/* Shown at once, before the WebGL fire loads, and kept underneath it. */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 18% 22% at var(--fx) calc(var(--fy) - 8%), rgb(255 150 60 / 0.42), transparent 70%),
+    radial-gradient(ellipse 45% 30% at var(--fx) var(--fy), rgb(242 107 29 / 0.2), transparent 75%);
+  transition: opacity 1.2s ease;
+}
+
+.ready .placeholder {
+  opacity: 0.35;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  animation: fire-in 1.4s ease forwards;
+}
+
+@keyframes fire-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: a still fire with a slow, gentle glow. */
+.still .placeholder {
+  opacity: 0.6;
+  animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas {
+    animation-duration: 0.01s;
+  }
+}
