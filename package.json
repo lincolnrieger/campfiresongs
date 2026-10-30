@@ -8,10 +8,12 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-server-dom-webpack": "19.3.1",
-    "vinext": "1.4.0"
+    "vinext": "1.4.0",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.66.0",
+    "@cloudflare/workers-types": "5.20261030.1",
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
@@ -19,15 +21,20 @@
     "@vitejs/plugin-rsc": "0.5.38",
     "typescript": "7.0.2",
     "vite": "8.3.5",
+    "vitest": "5.0.5",
     "wrangler": "4.156.0"
   },
   "type": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "start": "wrangler dev --config dist/server/wrangler.json",
-    "deploy": "vinext-cloudflare deploy --config dist/server/wrangler.json",
-    "typecheck": "tsc --noEmit"
+    "start": "wrangler dev --config dist/server/wrangler.json --persist-to .wrangler/state --env-file .dev.vars",
+    "deploy": "wrangler d1 migrations apply campfiresongs --remote && vinext-cloudflare deploy --config dist/server/wrangler.json",
+    "db:migrate:local": "wrangler d1 migrations apply campfiresongs --local --persist-to .wrangler/state",
+    "db:migrate": "wrangler d1 migrations apply campfiresongs --remote",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "tsc --noEmit && vitest run"
   },
   "overrides": {
     "fflate": "0.8.3"
