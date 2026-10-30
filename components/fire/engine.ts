@@ -117,7 +117,7 @@ export function startFire(opts: EngineOptions): FireHandle {
     const a = opts.anchorNarrow && rect.height > rect.width ? opts.anchorNarrow : opts.anchor;
     fx = a.x * w;
     fy = a.y * h;
-    size = Math.min(a.scale * h, w * 0.42);
+    size = Math.min(a.scale * h, w * (rect.height > rect.width ? 0.6 : 0.42));
   }
 
   function lightValue(flicker: number) {

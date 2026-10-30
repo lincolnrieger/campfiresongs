@@ -4,6 +4,9 @@
   inset: 0;
   overflow: hidden;
   touch-action: manipulation;
+  /* Soft edges, so the fire never sits in a visible box. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 94%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 94%, transparent);
 }
 
 /* Shown at once, before the WebGL fire loads, and kept underneath it. */

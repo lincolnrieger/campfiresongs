@@ -148,8 +148,8 @@ float flameHeat(vec2 p, float t) {
     body = body + tongue - body * tongue;
   }
   // A broad, short sheet of flame along the whole bed of coals.
-  float bx = q.x / (0.4 * uWidth);
-  body = max(body, exp(-bx * bx * bx * bx) * max(1.0 - q.y / (0.32 * H), 0.0));
+  float bx = q.x / (0.34 * uWidth);
+  body = max(body, 0.7 * exp(-bx * bx * bx * bx) * max(1.0 - q.y / (0.22 * H), 0.0));
 
   // Hot gas accelerates as it rises: stretch the noise upwards so features
   // crawl at the base and race at the tips. Stretched tall, so it tears the
