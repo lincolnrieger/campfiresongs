@@ -4,6 +4,10 @@
   "compatibility_date": "2026-10-30",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./worker/index.ts",
+  // Serve on campfiresongs.<your-subdomain>.workers.dev too, so you can check a
+  // deploy before (or without) the custom domain.
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "dist/client",
     "html_handling": "none",
