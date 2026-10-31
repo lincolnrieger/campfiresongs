@@ -27,8 +27,11 @@ export async function findUserById(db: D1Database, id: string) {
 export async function createUser(db: D1Database, email: string, passwordHash: string | null, displayName: string | null) {
   const id = newId();
   await db
-    .prepare("INSERT INTO users (id, email, password_hash, display_name, show_name, role, created_at) VALUES (?, ?, ?, ?, ?, 'user', ?)")
-    .bind(id, email, passwordHash, displayName, displayName ? 1 : 0, Date.now())
+    // Accounts are active straight away (no confirmation email), so email_verified_at is set now.
+    .prepare(
+      "INSERT INTO users (id, email, password_hash, display_name, show_name, role, email_verified_at, created_at) VALUES (?, ?, ?, ?, ?, 'user', ?, ?)",
+    )
+    .bind(id, email, passwordHash, displayName, displayName ? 1 : 0, Date.now(), Date.now())
     .run();
   return id;
 }

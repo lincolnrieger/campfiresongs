@@ -20,7 +20,7 @@ export default function Privacy() {
       <h2>What we collect, and why</h2>
       <h3>If you make an account</h3>
       <ul>
-        <li><strong>Your email</strong>, to sign you in and send account emails (confirming, password resets, sign-in links).</li>
+        <li><strong>Your email</strong>, to sign you in, and for emails about your account and the songs you send in (like password resets and review decisions).</li>
         <li><strong>Your password</strong>, stored only as a scrambled one-way hash. We can&rsquo;t read it.</li>
         <li><strong>A display name</strong>, if you give one.</li>
         <li><strong>The songs you save.</strong></li>
@@ -65,9 +65,8 @@ export default function Privacy() {
 
       <h2>How long we keep things</h2>
       <ul>
-        <li>Email links: work once, and stop working after 15 minutes to 24 hours depending on what they&rsquo;re for.</li>
+        <li>Password reset links: work once, and stop working after an hour.</li>
         <li>Being signed in: lasts up to 30 days, then you sign in again.</li>
-        <li>Accounts that are never confirmed: deleted after 7 days.</li>
         <li>Your account: kept until you delete it.</li>
         <li>
           Approved songs: kept in the bank for everyone. If you delete your account, the song stays but your name is

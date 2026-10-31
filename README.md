@@ -114,7 +114,7 @@ Go to **Turnstile → Add widget**, add the hostname `campfiresongs.org`, mode *
 
 ### 6. Make yourself admin
 
-Sign up on the live site and click the confirm link. Then in the dashboard go to **Storage & Databases → D1 →
+Sign up on the live site. Then in the dashboard go to **Storage & Databases → D1 →
 campfiresongs → Console** and run:
 
 ```sql
@@ -134,7 +134,7 @@ Sign out and back in. You'll see **Admin** in the menu, where you can add review
 - [ ] Email Sending onboarded; SPF and DKIM showing as verified; DMARC added; `send_email` uncommented
 - [ ] Email Routing forwards `hello@` to a real inbox; send a test via the Contact page
 - [ ] Sign up, add a test song; the "received" email arrives
-- [ ] Sign up, confirm, log in, reset password, magic link all work
+- [ ] Sign up (you're signed in straight away), sign out, sign in, reset password all work
 - [ ] You're admin; at least one other reviewer added; approve and reject a test song; both emails arrive
 - [ ] Report a test song; email arrives at `hello@`; take it down and put it back up
 - [ ] Delete the test account and test songs

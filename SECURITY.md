@@ -24,13 +24,15 @@ a reasonable chance to fix it before telling anyone else, and don't access or ch
 - **Output.** User text is always rendered as plain text. Embedded players are built from a checked video ID, never
   from the submitted link.
 - **Sessions.** `__Host-` cookies: HttpOnly, Secure, SameSite=Lax. Only a SHA-256 hash of the session ID is stored.
-- **Email links.** Random 256-bit tokens, single use, short expiry, stored only as hashes. Links open a page with a
+- **Password reset links.** Random 256-bit tokens, single use, expire after an hour, stored only as hashes. Links open a page with a
   button, so email scanners can't use them up.
 - **Passwords.** PBKDF2-SHA256 (100,000 rounds), at least 10 characters, checked against known breaches via Have I
   Been Pwned's k-anonymity API.
 - **Abuse.** Cloudflare Turnstile on submit, sign-up, report and contact forms. Rate limits on submissions, logins,
   sign-ups, resets, reports and contact (keys are HMACs, never raw IPs or emails). Honeypot fields.
-- **No account leaks.** Sign-up, login, magic link and reset give the same answer whether or not the email has an account.
+- **Account checks.** Login and password reset give the same answer whether or not the email has an account. Sign-up
+  has to say when an email is already taken (there's no confirmation email), so it's protected by Turnstile and a
+  per-IP rate limit instead.
 - **Headers.** Strict nonce-based Content Security Policy, HSTS, `frame-ancestors 'none'`, X-Frame-Options,
   Referrer-Policy, Permissions-Policy, nosniff. Cross-site POSTs are rejected (Origin / Sec-Fetch-Site check).
 - **Errors.** Users never see stack traces. Server logs record the error type only, with emails stripped.

@@ -33,7 +33,7 @@ export default async function SubmitPage() {
             they&rsquo;re in. It only takes a minute.
           </p>
           <p className={styles.gateButtons}>
-            <Link className="btn" href="/signup">Make an account</Link>
+            <Link className="btn" href="/signup?next=/submit">Make an account</Link>
             <Link className="btn btn-coal" href="/login?next=/submit">Sign in</Link>
           </p>
         </div>

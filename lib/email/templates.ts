@@ -50,33 +50,11 @@ export const notApprovedEmail = (title: string, note: string | null) =>
     "Please don't let that stop you. If you can fix the problem, you're very welcome to send it in again.",
   ]);
 
-export const verifyEmail = (link: string) =>
-  build(`Check your email for ${site.name}`, [
-    "Click the button to finish setting up your account. The link works once and runs out in 24 hours.",
-    { link, label: "Confirm my email" },
-    "If you didn't sign up, ignore this email and nothing will happen.",
-  ]);
-
 export const resetEmail = (link: string) =>
   build(`Reset your ${site.name} password`, [
     "Someone asked to reset the password for this account. If it was you, use the button below. It works once and runs out in an hour.",
     { link, label: "Choose a new password" },
     "If it wasn't you, ignore this email. Your password won't change.",
-  ]);
-
-export const magicLinkEmail = (link: string) =>
-  build(`Your ${site.name} sign-in link`, [
-    "Here's your link to sign in. It works once and runs out in 15 minutes.",
-    { link, label: "Sign me in" },
-    "If you didn't ask for this, ignore this email.",
-  ]);
-
-export const alreadyRegisteredEmail = (loginLink: string, resetLink: string) =>
-  build(`You already have a ${site.name} account`, [
-    "Someone tried to sign up with this email, but you already have an account.",
-    { link: loginLink, label: "Sign in" },
-    `Forgotten your password? You can reset it here: ${resetLink}`,
-    "If this wasn't you, you can ignore this email.",
   ]);
 
 export const reportEmail = (title: string, songLink: string, reason: string, message: string) =>

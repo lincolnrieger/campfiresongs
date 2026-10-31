@@ -5,7 +5,7 @@ import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { ErrorSummary, ErrorText, Honeypot, TextField } from "@/components/forms/fields";
 import { Turnstile } from "@/components/forms/Turnstile";
-import { chooseNewPassword, logIn, requestReset, sendMagicLink, signUp } from "@/lib/auth/actions";
+import { chooseNewPassword, logIn, requestReset, signUp } from "@/lib/auth/actions";
 import { str, type FormState } from "@/lib/forms";
 
 function Go({ children }: { children: string }) {
@@ -43,13 +43,14 @@ function PasswordField({ errors, label = "Password", autoComplete, hint }: { err
 
 const LABELS = { email: "Email", password: "Password", displayName: "Display name", ageOk: "Age" };
 
-export function SignUpForm({ siteKey }: { siteKey: string }) {
+export function SignUpForm({ siteKey, next }: { siteKey: string; next: string }) {
   const [s, action] = useActionState<FormState, FormData>(signUp, {});
   const v = s.values ?? {};
   return (
     <form action={action} noValidate key={s.attempt ?? 0}>
       <ErrorSummary errors={s.errors} message={s.message} labels={LABELS} />
       <Honeypot />
+      <input type="hidden" name="next" value={next} />
       <TextField name="email" type="email" label="Email" autoComplete="email" maxLength={254} defaultValue={str(v.email)} errors={s.errors} />
       <PasswordField errors={s.errors} autoComplete="new-password" hint="At least 10 characters. A few random words strung together works well." />
       <TextField
@@ -90,19 +91,6 @@ export function LoginForm({ next }: { next: string }) {
         <Link href="/reset">Forgotten your password?</Link>
       </p>
       <Go>Sign in</Go>
-    </form>
-  );
-}
-
-export function MagicForm({ next }: { next: string }) {
-  const [s, action] = useActionState<FormState, FormData>(sendMagicLink, {});
-  if (s.ok) return <p className="notice" role="status">{s.message}</p>;
-  return (
-    <form action={action} noValidate key={s.attempt ?? 0}>
-      <ErrorSummary errors={s.errors} message={s.message} labels={LABELS} />
-      <input type="hidden" name="next" value={next} />
-      <TextField name="email" type="email" label="Email" autoComplete="email" maxLength={254} defaultValue={str(s.values?.email)} errors={s.errors} />
-      <Go>Email me a link</Go>
     </form>
   );
 }

@@ -1,31 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LoginForm, MagicForm } from "@/components/auth/forms";
+import { LoginForm } from "@/components/auth/forms";
 import styles from "@/components/auth/auth.module.css";
 import { safeNext } from "@/lib/auth/next";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-export default async function Login({ searchParams }: { searchParams: Promise<{ next?: string; link?: string }> }) {
+export default async function Login({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const sp = await searchParams;
   const next = safeNext(sp.next);
   return (
-    <div className={`wrap page ${styles.split}`}>
+    <div className={`wrap page ${styles.narrow}`}>
       <div className="card">
         <h1>Sign in</h1>
-        {sp.link === "expired" && (
-          <p className="notice notice-error" role="alert">That sign-in link has run out or been used. Ask for a new one.</p>
-        )}
         <LoginForm next={next} />
-        <p style={{ marginTop: "var(--space-4)" }}>
-          New here? <Link href="/signup">Make an account</Link>.
+        <p style={{ marginTop: "var(--space-4)", marginBottom: 0 }}>
+          New here? <Link href={next === "/account" ? "/signup" : `/signup?next=${encodeURIComponent(next)}`}>Make an account</Link>.
         </p>
       </div>
-      <aside className={`card ${styles.aside}`}>
-        <h2>No password? No worries.</h2>
-        <p>We can email you a link that signs you straight in.</p>
-        <MagicForm next={next} />
-      </aside>
     </div>
   );
 }

@@ -280,7 +280,5 @@ export async function cleanup(db: D1Database, t = Date.now()) {
     db.prepare("DELETE FROM email_tokens WHERE expires_at < ? OR used_at IS NOT NULL").bind(t),
     db.prepare("DELETE FROM sessions WHERE expires_at < ?").bind(t),
     db.prepare("DELETE FROM rate_limits WHERE window_start < ?").bind(t - 24 * 3600_000),
-    // Accounts that never verified their email within a week.
-    db.prepare("DELETE FROM users WHERE email_verified_at IS NULL AND created_at < ?").bind(t - UNCONFIRMED_TTL),
   ]);
 }
