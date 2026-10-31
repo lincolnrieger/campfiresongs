@@ -1,0 +1,94 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.intro {
+  position: sticky;
+  top: var(--space-4);
+}
+
+.intro h1 {
+  font-size: var(--step-3);
+}
+
+.tips {
+  margin: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ash);
+}
+
+.tips li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: var(--space-2);
+}
+
+.tips li::before {
+  content: "";
+  position: absolute;
+  left: 0.2em;
+  top: 0.55em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0.6em var(--ember);
+}
+
+.who {
+  font-size: var(--step--1);
+  color: var(--ash);
+  border-top: 1px dashed rgb(184 174 163 / 0.3);
+  padding-top: var(--space-3);
+}
+
+.form {
+  min-width: 0;
+}
+
+.group {
+  position: relative;
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  margin-bottom: var(--space-4);
+  background: linear-gradient(180deg, rgb(34 28 36 / 0.78), rgb(22 19 32 / 0.6));
+  border-radius: 6px 10px 7px 9px;
+  border-bottom: 2px solid rgb(242 107 29 / calc(0.15 + var(--lit) * 0.35));
+}
+
+.group h2 {
+  font-size: var(--step-1);
+  color: var(--glow);
+  margin-bottom: var(--space-3);
+}
+
+.lyrics {
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.group :global(.turnstile) {
+  margin-bottom: var(--space-3);
+  min-height: 65px;
+}
+
+.group button[type="submit"] {
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .intro {
+    position: static;
+  }
+  .group {
+    padding: var(--space-3) var(--space-3) var(--space-1);
+    margin-inline: calc(-1 * var(--space-2));
+  }
+}

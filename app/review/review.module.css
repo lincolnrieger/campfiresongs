@@ -1,0 +1,120 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.layout h1 { font-size: var(--step-3); }
+
+.queue {
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+.queue li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px dashed rgb(184 174 163 / 0.25);
+}
+
+.queue li::marker {
+  color: var(--ember);
+  font-family: var(--font-display);
+}
+
+.queue a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  color: var(--cream);
+}
+
+.queue span,
+.muted {
+  color: var(--ash);
+  font-size: var(--step--1);
+}
+
+.side {
+  padding: var(--space-4);
+  background: rgb(34 28 36 / 0.72);
+  border-radius: 8px 6px 9px 7px;
+}
+
+.side h2 {
+  font-size: var(--step-1);
+}
+
+.side ul {
+  padding-left: 1.1em;
+  margin: 0 0 var(--space-3);
+}
+
+.side li {
+  margin-bottom: var(--space-1);
+}
+
+[data-status="approved"] { color: var(--ok); font-weight: 700; }
+[data-status="rejected"] { color: var(--danger); font-weight: 700; }
+
+.check li::marker { content: "✓  "; color: var(--flame); }
+
+/* Single submission. */
+.fields {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+}
+
+.fields dt {
+  font-weight: 700;
+  color: var(--glow);
+}
+
+.fields dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: var(--ash);
+  font-style: italic;
+}
+
+.lyrics {
+  padding: var(--space-3);
+  background: rgb(13 11 18 / 0.6);
+  border-left: 2px solid var(--ember);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.decide h2 {
+  font-size: var(--step-1);
+}
+
+.decide {
+  padding: var(--space-4);
+  background: rgb(34 28 36 / 0.78);
+  border-radius: 8px 6px 9px 7px;
+  margin-bottom: var(--space-4);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.editor > summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: var(--space-4); }
+}

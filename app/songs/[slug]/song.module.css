@@ -1,0 +1,132 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  grid-template-areas: "head head" "sheet side";
+  gap: var(--space-4) var(--space-5);
+  align-items: start;
+}
+
+.head { grid-area: head; }
+
+.crumb {
+  margin-bottom: var(--space-2);
+  font-size: var(--step--1);
+}
+
+.head h1 {
+  font-size: var(--step-4);
+  margin-bottom: var(--space-2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  color: var(--ash);
+  font-size: var(--step--1);
+  max-width: none;
+}
+
+.energy[data-energy="high"]::before { content: "▲ "; color: var(--ember); }
+.energy[data-energy="medium"]::before { content: "◆ "; color: var(--flame); }
+.energy[data-energy="calm"]::before { content: "● "; color: var(--glow); }
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+/* The song sheet: paper, lit warm from below, a touch crooked. */
+.sheet {
+  grid-area: sheet;
+  position: relative;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 115%, rgb(255 179 71 / calc(0.1 + var(--lit) * 0.18)), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04 0.6' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"),
+    linear-gradient(175deg, #f8f0e1, var(--paper) 40%, #ecdfc6);
+  padding: clamp(1.4rem, 4vw, 3rem) clamp(1.2rem, 4vw, 3.2rem);
+  border-radius: 3px 5px 4px 6px;
+  box-shadow:
+    0 1.4rem 3rem -1.2rem rgb(0 0 0 / 0.8),
+    0 0.2rem 2.6rem -0.6rem rgb(242 107 29 / calc(var(--lit) * 0.45)),
+    inset 0 0 0 1px var(--paper-edge);
+  transform: rotate(-0.35deg);
+}
+
+.lyrics {
+  margin: 0;
+  max-width: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.12rem, 1rem + 0.45vw, 1.32rem);
+  line-height: 1.75;
+}
+
+.side {
+  grid-area: side;
+  min-width: 0;
+}
+
+.side section {
+  margin-bottom: var(--space-4);
+}
+
+.side h2 {
+  font-size: var(--step-1);
+  color: var(--glow);
+  margin-bottom: var(--space-2);
+}
+
+.pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--cream);
+}
+
+.credit {
+  color: var(--ash);
+  font-style: italic;
+}
+
+.video,
+.audio {
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--coal);
+}
+
+.video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.audio iframe {
+  display: block;
+  width: 100%;
+  height: 166px;
+  border: 0;
+}
+
+.report {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+  font-size: var(--step--1);
+  color: var(--ash);
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "sheet" "side";
+  }
+  .sheet {
+    transform: none;
+    margin-inline: calc(-1 * var(--space-2));
+  }
+}

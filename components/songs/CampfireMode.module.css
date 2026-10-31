@@ -1,0 +1,101 @@
+.mode {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #050407;
+  color: #fff8ec;
+  outline: none;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem max(1rem, env(safe-area-inset-right)) 0.6rem max(1rem, env(safe-area-inset-left));
+  background: linear-gradient(#050407 70%, transparent);
+  font-size: 1rem;
+}
+
+.status {
+  color: var(--ash);
+  font-size: 0.85rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 52px;
+  min-height: 52px;
+  justify-content: center;
+  font: 700 1.05rem var(--font-body);
+  color: #fff8ec;
+  background: #1c161d;
+  border: 1px solid rgb(255 179 71 / 0.45);
+  border-radius: 6px 8px 6px 7px;
+  cursor: pointer;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 36em;
+  margin: 0 auto;
+  padding: 0.5em max(1rem, 5vw) 40vh;
+}
+
+.title {
+  font-size: 1.1em;
+  color: var(--flame);
+  text-shadow: none;
+  margin-bottom: 0.8em;
+}
+
+.words,
+.chords {
+  margin: 0;
+  max-width: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.sub {
+  margin-top: 1.5em;
+  font-size: 0.7em;
+  color: var(--flame);
+}
+
+.chords {
+  font-size: 0.75em;
+  color: var(--glow);
+}
+
+/* A calm glow at the bottom edge, so it still feels like a fire's nearby. */
+.glow {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22vh;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 100% at 50% 120%, rgb(242 107 29 / 0.35), transparent 70%);
+  opacity: calc(0.5 + var(--fire-light) * 0.4);
+}

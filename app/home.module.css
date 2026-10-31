@@ -1,0 +1,244 @@
+.hero {
+  position: relative;
+  min-height: calc(100svh - 76px);
+  display: flex;
+  overflow: hidden;
+  margin-top: -1px;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  pointer-events: none;
+}
+
+.heroText {
+  pointer-events: auto;
+  max-width: 34rem;
+  padding-top: clamp(2rem, 9vh, 7rem);
+}
+
+.heroText h1 {
+  font-size: clamp(2.8rem, 2rem + 4vw, 5.6rem);
+  font-weight: 450;
+  line-height: 0.98;
+  margin-bottom: var(--space-4);
+}
+
+.heroText h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--glow);
+}
+
+.lede {
+  font-size: var(--step-1);
+  color: var(--ash);
+  line-height: 1.5;
+  max-width: 30rem;
+}
+
+.search {
+  margin-top: var(--space-4);
+  max-width: 30rem;
+}
+
+.search label {
+  display: block;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-style: italic;
+  font-size: var(--step-1);
+  margin-bottom: var(--space-2);
+  color: var(--cream);
+}
+
+.searchRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.searchRow input {
+  flex: 1;
+  min-width: 0;
+}
+
+.add {
+  margin-top: var(--space-3);
+  color: var(--ash);
+}
+
+.tapHint {
+  position: absolute;
+  right: 6%;
+  bottom: 4%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step--1);
+  color: rgb(184 174 163 / 0.6);
+  transform: rotate(-4deg);
+}
+
+.lower {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  align-items: start;
+}
+
+.h2icon {
+  display: inline-block;
+  vertical-align: -0.1em;
+  color: var(--flame);
+  margin-right: 0.15em;
+}
+
+.setlist h2 {
+  font-size: var(--step-2);
+}
+
+.list {
+  list-style: none;
+  counter-reset: song;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+}
+
+.list li {
+  counter-increment: song;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px dashed rgb(184 174 163 / 0.25);
+}
+
+.list li::before {
+  content: counter(song);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ember);
+  min-width: 1.6em;
+}
+
+.list a {
+  flex: 1;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100;
+  font-size: var(--step-1);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.list a:hover {
+  color: var(--flame);
+}
+
+.energy {
+  font-size: var(--step--1);
+  color: var(--ash);
+}
+
+.energy[data-energy="high"]::before { content: "▲ "; color: var(--ember); }
+.energy[data-energy="medium"]::before { content: "◆ "; color: var(--flame); }
+.energy[data-energy="calm"]::before { content: "● "; color: var(--glow); }
+
+.all {
+  display: inline-flex;
+  gap: 0.4em;
+  align-items: center;
+}
+
+.empty {
+  font-size: var(--step-1);
+  color: var(--ash);
+}
+
+/* Steps along a dotted trail, stepping down and across. */
+.trail {
+  margin-top: var(--space-5);
+}
+
+.trail h2 {
+  font-size: var(--step-2);
+}
+
+.trail ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.trail ol::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 1.5rem;
+  bottom: 2rem;
+  border-left: 2px dotted rgb(255 179 71 / 0.4);
+}
+
+.trail li {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.trail li:nth-child(2) { margin-left: var(--space-3); }
+.trail li:nth-child(3) { margin-left: var(--space-5); }
+
+.trail li > svg {
+  flex: none;
+  color: var(--flame);
+  background: var(--night);
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.trail h3 {
+  margin-bottom: var(--space-1);
+}
+
+.trail p {
+  color: var(--ash);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    min-height: calc(100svh - 70px);
+  }
+  .heroText {
+    padding-top: var(--space-3);
+    padding-bottom: 26svh;
+  }
+  .tapHint {
+    display: none;
+  }
+  .lower {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+  }
+  .trail {
+    margin-top: 0;
+  }
+  .trail li:nth-child(2) { margin-left: var(--space-2); }
+  .trail li:nth-child(3) { margin-left: var(--space-3); }
+}
+
+@media (max-width: 420px) {
+  .searchRow {
+    flex-direction: column;
+  }
+  .searchRow button {
+    justify-content: center;
+  }
+}
