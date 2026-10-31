@@ -17,8 +17,8 @@
   list-style: none;
 }
 
-.tags li {
-  padding: 0.2em 0.8em;
+.tags li:not(:global(.tag)) {
+  padding: 0.15em 0.75em;
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent-ink);

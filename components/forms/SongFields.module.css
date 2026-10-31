@@ -1,0 +1,22 @@
+.lyrics {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.extras {
+  margin-bottom: var(--space-4);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.extras > summary {
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  list-style-position: inside;
+}
+
+.extrasBody {
+  padding: var(--space-1) 1rem 0;
+}

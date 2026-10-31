@@ -1,6 +1,6 @@
 .header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  background: #16231d;
+  color: var(--on-forest);
 }
 
 .bar {
@@ -15,9 +15,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text);
+  font-family: var(--font-head);
+  font-variation-settings: "SOFT" 100;
+  font-size: 1.35rem;
+  font-weight: 650;
+  color: var(--on-forest);
   text-decoration: none;
 }
 
@@ -30,14 +32,20 @@
   gap: var(--space-4);
 }
 
-.header nav a:not(:global(.btn)) {
-  color: var(--text);
+.wide a:not(:global(.btn)) {
+  color: var(--on-forest);
   font-weight: 600;
   text-decoration: none;
 }
 
-.header nav a:not(:global(.btn)):hover {
-  color: var(--accent-ink);
+.wide a:not(:global(.btn)):hover {
+  color: var(--amber);
+}
+
+.menu nav a:not(:global(.btn)) {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .menu {
@@ -52,9 +60,10 @@
   display: grid;
   place-items: center;
   padding: 0 1.1rem;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid rgb(247 239 226 / 0.35);
   border-radius: 999px;
   font-weight: 700;
+  color: var(--on-forest);
 }
 
 .menu summary::-webkit-details-marker {

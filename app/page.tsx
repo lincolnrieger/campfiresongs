@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Flame } from "@/components/ui/Flame";
+import { Campfire, NightBand } from "@/components/ui/Campfire";
 import { ENERGIES, labelFor } from "@/lib/constants";
 import { countPublished, latestSongs } from "@/lib/data/songs";
 import { db } from "@/lib/env";
@@ -8,68 +8,61 @@ import styles from "./home.module.css";
 export default async function Home() {
   const [songs, count] = await Promise.all([latestSongs(db(), 6), countPublished(db())]);
   return (
-    <div className="wrap">
-      <section className={styles.hero}>
-        <Flame size={64} />
-        <h1>Campfire songs, all in one place</h1>
-        <p className="lede">
-          Words, chords and actions for the songs everyone sings after dark. Sent in by anyone, checked by young people,
-          free for all.
-        </p>
-        <form action="/songs" method="get" role="search" className={styles.search}>
-          <label htmlFor="hero-q" className="visually-hidden">Search for a song</label>
-          <input id="hero-q" name="q" type="search" placeholder="Search for a song" autoComplete="off" />
-          <button className="btn" type="submit">Search</button>
-        </form>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2>Latest songs</h2>
-          {count > 0 && <Link href="/songs">See all {count}</Link>}
-        </div>
-        {songs.length === 0 ? (
-          <div className={`card ${styles.empty}`}>
-            <p>No songs yet. The bank is brand new.</p>
-            <Link href="/submit" className="btn">Add the first song</Link>
+    <>
+      <NightBand>
+        <div className={`wrap ${styles.hero}`}>
+          <div className={styles.heroText}>
+            <p className={styles.kicker}>Pull up a log</p>
+            <h1>The songs we sing around the fire</h1>
+            <p className={styles.lede}>
+              Words, chords and actions for campfire songs, sent in by people who love them and checked by young
+              people before they go in.
+            </p>
+            <form action="/songs" method="get" role="search" className={styles.search}>
+              <label htmlFor="hero-q" className="visually-hidden">Search for a song</label>
+              <input id="hero-q" name="q" type="search" placeholder="Search for a song" autoComplete="off" />
+              <button className="btn" type="submit">Search</button>
+            </form>
           </div>
-        ) : (
-          <ul className="song-list">
-            {songs.map((s) => (
-              <li key={s.id}>
-                <Link href={`/songs/${s.slug}`}>
-                  <strong>{s.title}</strong>
-                  <span className="meta">{labelFor(ENERGIES, s.energy)} energy</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+          <Campfire size={240} />
+        </div>
+      </NightBand>
 
-      <section className={styles.section}>
-        <h2>How it works</h2>
-        <ol className={styles.steps}>
-          <li className="card">
-            <span className={styles.num}>1</span>
-            <h3>Send in a song</h3>
-            <p>Words, chords if you know them, and how to lead it. No account needed.</p>
-          </li>
-          <li className="card">
-            <span className={styles.num}>2</span>
-            <h3>Young people check it</h3>
-            <p>A small review team makes sure it suits all ages and is okay to share.</p>
-          </li>
-          <li className="card">
-            <span className={styles.num}>3</span>
-            <h3>Everyone can sing it</h3>
-            <p>It goes in the bank, and we email you to say it&rsquo;s in.</p>
-          </li>
-        </ol>
-        <p className={styles.cta}>
+      <div className="wrap">
+        <section className={styles.section} aria-labelledby="latest">
+          <div className={styles.sectionHead}>
+            <h2 id="latest">New around the fire</h2>
+            {count > 1 && <Link href="/songs">All {count} songs</Link>}
+          </div>
+          {songs.length === 0 ? (
+            <p className={styles.empty}>
+              No songs yet. The fire&rsquo;s only just been lit. <Link href="/submit">Add the first one.</Link>
+            </p>
+          ) : (
+            <ol className={`song-list ${styles.setlist}`}>
+              {songs.map((s) => (
+                <li key={s.id}>
+                  <Link href={`/songs/${s.slug}`}>
+                    <strong>{s.title}</strong>
+                    <span className="tag" data-energy={s.energy}>{labelFor(ENERGIES, s.energy)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
+
+        <section className={styles.invite} aria-labelledby="invite">
+          <div>
+            <h2 id="invite">Know one we haven&rsquo;t got?</h2>
+            <p>
+              Every group has a song that only comes out after dark. Sign in, write it down, and our youth review team
+              will have a look. If it&rsquo;s a goer, everyone gets to sing it.
+            </p>
+          </div>
           <Link href="/submit" className="btn">Add a song</Link>
-        </p>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

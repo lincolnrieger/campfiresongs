@@ -13,24 +13,22 @@ export default function Privacy() {
         you choose a name to show on a song, and you can delete your stuff whenever you like.
       </p>
       <p>
-        This page follows the Australian Privacy Principles in the <em>Privacy Act 1988</em>. It was last updated on 30
+        This page follows the Australian Privacy Principles in the <em>Privacy Act 1988</em>. It was last updated on 31
         October 2026.
       </p>
 
       <h2>What we collect, and why</h2>
-      <h3>If you send in a song without an account</h3>
-      <ul>
-        <li><strong>The song</strong> and anything you write about it, so the review team can check it and add it to the bank.</li>
-        <li><strong>A name to show</strong>, only if you give one. It appears on the song if it&rsquo;s approved.</li>
-        <li><strong>Your email</strong>, only to send you the confirm link and to tell you what the reviewers decided. It&rsquo;s never shown to anyone, including the reviewers&rsquo; public pages.</li>
-        <li><strong>Notes for reviewers</strong>, seen only by the review team.</li>
-      </ul>
       <h3>If you make an account</h3>
       <ul>
         <li><strong>Your email</strong>, to sign you in and send account emails (confirming, password resets, sign-in links).</li>
         <li><strong>Your password</strong>, stored only as a scrambled one-way hash. We can&rsquo;t read it.</li>
         <li><strong>A display name</strong>, if you give one.</li>
-        <li><strong>The songs you save</strong> and <strong>the songs you send in</strong>.</li>
+        <li><strong>The songs you save.</strong></li>
+        <li>
+          <strong>The songs you send in</strong> and anything you write about them, so the review team can check them.
+          Notes for reviewers are seen only by the review team.
+        </li>
+        <li><strong>A name to show on a song</strong>, only if you give one. It appears on the song once it&rsquo;s approved.</li>
       </ul>
       <p>We don&rsquo;t ask for your age, address, phone number, school, Scout group or anything else.</p>
       <h3>If you report a song or use the contact form</h3>
@@ -67,8 +65,6 @@ export default function Privacy() {
 
       <h2>How long we keep things</h2>
       <ul>
-        <li>Songs you send in without an account that you don&rsquo;t confirm: deleted after 7 days.</li>
-        <li>Your email on a song sent without an account: deleted 30 days after we email you the decision.</li>
         <li>Email links: work once, and stop working after 15 minutes to 24 hours depending on what they&rsquo;re for.</li>
         <li>Being signed in: lasts up to 30 days, then you sign in again.</li>
         <li>Accounts that are never confirmed: deleted after 7 days.</li>
@@ -100,7 +96,7 @@ export default function Privacy() {
       <h2>Young people</h2>
       <p>
         This site is made for young people. If you&rsquo;re under 15, please get a parent, carer or leader&rsquo;s okay
-        before making an account. You don&rsquo;t need an account to use the site.
+        before making an account. You don&rsquo;t need an account to browse or sing the songs.
       </p>
 
       <h2>Seeing, fixing or deleting your information</h2>
@@ -109,7 +105,7 @@ export default function Privacy() {
         <li>Edit or delete a song you&rsquo;ve sent in, until it&rsquo;s reviewed, from <Link href="/account/submissions">your submissions</Link>.</li>
         <li>Delete your whole account and everything in it from <Link href="/account">your account page</Link>. It happens straight away.</li>
         <li>
-          For anything else, including a copy of what we hold about you or deleting a song you sent without an account,{" "}
+          For anything else, including a copy of what we hold about you,{" "}
           <Link href="/contact">contact us</Link>. We&rsquo;ll reply within 30 days.
         </li>
       </ul>

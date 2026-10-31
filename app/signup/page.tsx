@@ -11,7 +11,7 @@ export default function SignUp() {
     <div className={`wrap page ${styles.split}`}>
       <div className="card">
         <h1>Make an account</h1>
-        <p className="lede">You don&rsquo;t need one to sing or to send in songs. It&rsquo;s just for saving favourites and keeping track of what you&rsquo;ve sent.</p>
+        <p className="lede">You need one to add songs. It also lets you save your favourites and keep track of what you&rsquo;ve sent in.</p>
         <SignUpForm siteKey={getEnv().TURNSTILE_SITE_KEY} />
       </div>
       <aside className={`card ${styles.aside}`}>

@@ -28,7 +28,7 @@ export default function About() {
         <ul>
           <li>No profiles, no messages, no comments. Nobody can contact anybody through the site.</li>
           <li>The only thing ever shown about a person is a first name or nickname on a song, and only if they want it.</li>
-          <li>You don&rsquo;t need an account to sing or to send a song in.</li>
+          <li>Anyone can browse and sing the songs without an account. You only need one to add a song.</li>
           <li>We keep as little about you as we can, and delete it when it&rsquo;s not needed. <Link href="/privacy">Here&rsquo;s exactly what.</Link></li>
         </ul>
         <h2>Lend a hand</h2>
