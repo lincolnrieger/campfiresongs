@@ -16,20 +16,19 @@ Lives at **campfiresongs.org**. The name and domain are set in one place: [`conf
 | Bot checks | Cloudflare Turnstile |
 | Rate limits | Counters in D1 (`lib/ratelimit.ts`) |
 | Validation | Zod, on the server |
-| Styles | Plain CSS + CSS modules, no UI kit |
-| Fire | Hand-written WebGL2 shader (`components/fire/`), canvas 2D fallback |
+| Styles | Plain CSS + CSS modules, Nunito font, light and rounded |
 
 D1 has no row level security, so access rules live in one server-only layer, `lib/data/`. Pages and actions never
 query the database directly. See [SECURITY.md](SECURITY.md).
 
 ```
 app/            pages, server actions
-components/     fire, sky, forms, site chrome
+components/     forms, header/footer, small UI bits
 config/site.ts  name + domain
 lib/data/       every database query, with role checks
 lib/auth/       sessions, sign-in actions, guards
 lib/email/      sending + templates
-migrations/     D1 schema
+migrations/     D1 schema (applied automatically on first request, lib/migrate.ts)
 tests/          access-rule tests for every role, validation tests
 worker/         Worker entry (app + daily clean-up cron)
 middleware.ts   security headers, CSP nonce, cross-site POST check
@@ -55,22 +54,14 @@ RATE_LIMIT_SECRET=anything-long
 APP_URL=http://localhost:8787
 ```
 
-Create the local database:
-
-```bash
-npm run db:migrate:local
-```
-
 Build and run the real Worker locally:
 
 ```bash
 npm run build && npm run start
 ```
 
-Open http://localhost:8787. Emails aren't really sent locally: Wrangler prints each one in the terminal and saves the
-text and HTML under `dist/server/.wrangler/tmp/email/`, so you can click the links.
-
-The hidden fire tuning page is at http://localhost:8787/fire.
+Open http://localhost:8787. The database tables are created on the first request. Emails aren't sent locally: each
+one is printed in the terminal, so you can click the links.
 
 Tests:
 
@@ -78,123 +69,69 @@ Tests:
 npm run check
 ```
 
-## Set up Cloudflare (once)
+## Put it on Cloudflare
 
-Everything below is in the Cloudflare dashboard at https://dash.cloudflare.com unless it's a command.
+### 1. Deploy (this is all you need to get it running)
 
-### 1. Put the domain on Cloudflare
+In the Cloudflare dashboard go to **Workers & Pages → Create → Import a repository** and pick this repo. Set:
 
-Add `campfiresongs.org` as a site and switch your registrar's nameservers to the two Cloudflare gives you. Wait until
-the dashboard says it's active.
+- **Project / Worker name:** `campfiresongs` (must match `name` in `wrangler.jsonc`)
+- **Build command:** `npm run build`
+- **Deploy command:** `npx wrangler deploy`
+- **Production branch:** the branch you merge into
 
-### 2. Workers plan
+That's it. On the first deploy Wrangler creates the D1 database for you, and the site creates its tables on its first
+visit. Forms work straight away using Cloudflare's test Turnstile key. Emails don't send until step 4.
+
+If the deploy fails, open the build log in the dashboard and look for the first red line.
+
+### 2. Workers Paid plan
 
 Use the **Workers Paid** plan (US$5/month). Password hashing needs more CPU per request than the free plan's 10ms
-allows, so sign-up and login will fail on the free plan.
+allows, so sign-up and login can fail on the free plan.
 
-### 3. Database
+### 3. Connect campfiresongs.org
 
-```bash
-npx wrangler login
+Add `campfiresongs.org` to Cloudflare (switch your registrar's nameservers to the two Cloudflare gives you). Then in the
+Worker go to **Settings → Domains & Routes → Add → Custom domain** and add `campfiresongs.org`.
+
+### 4. Turn on email
+
+1. Go to **Compute & AI → Email Service → Email Sending** and onboard `campfiresongs.org`. Cloudflare adds the **SPF**
+   and **DKIM** records for you.
+2. Add **DMARC** yourself under **DNS → Records → Add record**: type `TXT`, name `_dmarc`, content
+   `v=DMARC1; p=quarantine; rua=mailto:hello@campfiresongs.org`.
+3. Go to **Email → Email Routing**, turn it on, and forward `hello@campfiresongs.org` to your own inbox (reports and
+   contact messages go there).
+4. In `wrangler.jsonc`, uncomment the `"send_email"` line and push. Emails now send from `noreply@campfiresongs.org`.
+
+### 5. Real Turnstile keys
+
+Go to **Turnstile → Add widget**, add the hostname `campfiresongs.org`, mode **Managed**. Put the **site key** in
+`wrangler.jsonc` under `vars.TURNSTILE_SITE_KEY` and push. Set the **secret key** in the Worker under
+**Settings → Variables and Secrets → Add → Secret**, named `TURNSTILE_SECRET_KEY`. Also add a secret called
+`RATE_LIMIT_SECRET` with any long random text.
+
+### 6. Make yourself admin
+
+Sign up on the live site and click the confirm link. Then in the dashboard go to **Storage & Databases → D1 →
+campfiresongs → Console** and run:
+
+```sql
+UPDATE users SET role = 'admin', email_verified_at = COALESCE(email_verified_at, 0) WHERE email = 'you@example.com';
 ```
 
-```bash
-npx wrangler d1 create campfiresongs
-```
-
-Copy the `database_id` it prints into `wrangler.jsonc` (replace the zeros), commit it, then create the tables:
-
-```bash
-npm run db:migrate
-```
-
-### 4. Turnstile
-
-Go to **Turnstile → Add widget**. Name it CampfireSongs, add the hostname `campfiresongs.org`, and choose **Managed**.
-
-- Put the **site key** in `wrangler.jsonc` under `vars.TURNSTILE_SITE_KEY` (it's public).
-- Set the **secret key** as a secret:
-
-```bash
-npx wrangler secret put TURNSTILE_SECRET_KEY
-```
-
-### 5. Rate-limit secret
-
-```bash
-openssl rand -base64 32
-```
-
-```bash
-npx wrangler secret put RATE_LIMIT_SECRET
-```
-
-### 6. Email: sending
-
-Go to **Compute & AI → Email Service → Email Sending** and onboard `campfiresongs.org` (or run
-`npx wrangler email sending enable campfiresongs.org`). Because the domain is on Cloudflare, it adds the sending
-records for you:
-
-- **SPF**: a TXT record authorising Cloudflare to send for the domain.
-- **DKIM**: records used to sign every email.
-
-Check them with:
-
-```bash
-npx wrangler email sending dns get campfiresongs.org
-```
-
-Then add **DMARC** yourself under **DNS → Records → Add record**:
-
-| Type | Name | Content |
-| --- | --- | --- |
-| TXT | `_dmarc` | `v=DMARC1; p=quarantine; rua=mailto:hello@campfiresongs.org` |
-
-Start with `p=quarantine`. Once a few weeks of reports look clean, you can move to `p=reject`.
-
-The site sends from `noreply@campfiresongs.org`.
-
-### 7. Email: receiving `hello@`
-
-Reports and contact messages go to `ADMIN_EMAIL` (`hello@campfiresongs.org`). To read them, go to **Email → Email
-Routing**, enable it (it adds MX and SPF records), and create a rule forwarding `hello@campfiresongs.org` to your own
-inbox. Verify that inbox when Cloudflare asks.
-
-### 8. Deploy from GitHub
-
-Go to **Workers & Pages → Create → Import a repository**, pick this repo, and set:
-
-- **Build command:** `npm run build`
-- **Deploy command:** `npm run deploy` (this also applies any new database migrations)
-- **Production branch:** `main`
-
-Every push to `main` deploys. Other branches get preview builds.
-
-### 9. Connect campfiresongs.org
-
-In the Worker, go to **Settings → Domains & Routes → Add → Custom domain** and add `campfiresongs.org`. Add
-`www.campfiresongs.org` too if you want it. Cloudflare sets up DNS and HTTPS.
-
-### 10. Make yourself admin
-
-Sign up on the live site with your email and click the confirm link. Then:
-
-```bash
-npx wrangler d1 execute campfiresongs --remote --command "UPDATE users SET role='admin' WHERE email='you@example.com'"
-```
-
-Sign out and back in. You'll see **Admin** in the menu. From there you can make reviewers: they sign up first, then you
-add them by email.
+Sign out and back in. You'll see **Admin** in the menu, where you can add reviewers (they sign up first).
 
 ## Go-live checklist
 
+- [ ] Deploy succeeds; the site loads on its workers.dev address
 - [ ] Domain active on Cloudflare, HTTPS working, `www` redirects or is added
 - [ ] Workers Paid plan
-- [ ] Real `database_id` in `wrangler.jsonc`, migrations applied (`npm run db:migrate`)
 - [ ] Real Turnstile site key in `wrangler.jsonc`, secret set
 - [ ] `RATE_LIMIT_SECRET` set
 - [ ] `TURNSTILE_DEV_BYPASS` and `APP_URL` **not** set in production
-- [ ] Email Sending onboarded; SPF and DKIM showing as verified; DMARC added
+- [ ] Email Sending onboarded; SPF and DKIM showing as verified; DMARC added; `send_email` uncommented
 - [ ] Email Routing forwards `hello@` to a real inbox; send a test via the Contact page
 - [ ] Send a test song without an account; confirm link arrives and works; "received" email arrives
 - [ ] Sign up, confirm, log in, reset password, magic link all work
@@ -208,6 +145,6 @@ add them by email.
 ## Changing things
 
 - **Name or domain:** `config/site.ts`, then the `ADMIN_EMAIL` var in `wrangler.jsonc`.
-- **The fire:** tune it at `/fire`, press **Copy settings**, and paste into `DEFAULT_FIRE` in `components/fire/settings.ts`.
+- **Colours and spacing:** the variables at the top of `app/globals.css`.
 - **Categories, sections, limits, time limits:** `lib/constants.ts` and `lib/ratelimit.ts`.
 - **Emails:** `lib/email/templates.ts`.

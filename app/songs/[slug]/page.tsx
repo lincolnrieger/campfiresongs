@@ -29,18 +29,19 @@ export default async function SongPage({ params, searchParams }: Props) {
   const saved = await isFavourite(db(), actor, song.id);
   const embed = song.media_provider && song.media_id ? embedUrl({ provider: song.media_provider, id: song.media_id }) : null;
 
+  const isVideo = song.media_provider === "youtube" || song.media_provider === "vimeo";
   return (
-    <article className={`wrap page ${styles.layout}`}>
+    <article className="wrap page">
       <header className={styles.head}>
         <p className={styles.crumb}>
-          <Link href="/songs">Song bank</Link>
+          <Link href="/songs">&larr; All songs</Link>
         </p>
         <h1>{song.title}</h1>
-        <p className={styles.tags}>
-          <span data-energy={song.energy} className={styles.energy}>{labelFor(ENERGIES, song.energy)} energy</span>
-          {song.categories.map((c) => <span key={c}>{labelFor(CATEGORIES, c)}</span>)}
-          <span>For {song.sections.map((s) => labelFor(SECTIONS, s)).join(", ")}</span>
-        </p>
+        <ul className={styles.tags} aria-label="About this song">
+          <li>{labelFor(ENERGIES, song.energy)} energy</li>
+          {song.categories.map((c) => <li key={c}>{labelFor(CATEGORIES, c)}</li>)}
+          <li>{song.sections.map((s) => labelFor(SECTIONS, s)).join(", ")}</li>
+        </ul>
         <div className={styles.tools}>
           <CampfireMode title={song.title} lyrics={song.lyrics} chords={song.chords} />
           {actor ? (
@@ -48,63 +49,65 @@ export default async function SongPage({ params, searchParams }: Props) {
               <input type="hidden" name="slug" value={song.slug} />
               <input type="hidden" name="on" value={saved ? "0" : "1"} />
               <button className="btn btn-coal" type="submit" aria-pressed={saved}>
-                <Icon name={saved ? "starFilled" : "star"} size={20} /> {saved ? "Saved" : "Save"}
+                <Icon name={saved ? "starFilled" : "star"} size={18} /> {saved ? "Saved" : "Save"}
               </button>
             </form>
           ) : (
             <Link className="btn btn-coal" href={`/login?next=/songs/${song.slug}`}>
-              <Icon name="star" size={20} /> Save
+              <Icon name="star" size={18} /> Save
             </Link>
           )}
         </div>
-        {sp.saved && <p className="notice" role="status">Saved. Find it any time under <Link href="/account">your stuff</Link>.</p>}
-        {sp.reported && <p className="notice" role="status">Thanks for letting us know. The admin will have a look.</p>}
+        {sp.saved && <p className="notice" role="status">Saved. Find it any time in <Link href="/account">My account</Link>.</p>}
+        {sp.reported && <p className="notice" role="status">Thanks for letting us know. We&rsquo;ll have a look.</p>}
       </header>
 
-      <div className={styles.sheet}>
-        <h2 className="visually-hidden">Words</h2>
-        <p className={styles.lyrics}>{song.lyrics}</p>
-      </div>
+      <div className={styles.layout}>
+        <div className="card">
+          <h2 className="visually-hidden">Words</h2>
+          <p className={styles.lyrics}>{song.lyrics}</p>
+        </div>
 
-      <aside className={styles.side}>
-        {song.chords && (
-          <section>
-            <h2>Chords</h2>
-            <p className={styles.pre}>{song.chords}</p>
-          </section>
-        )}
-        {song.actions && (
-          <section>
-            <h2>How to lead it</h2>
-            <p className={styles.pre}>{song.actions}</p>
-          </section>
-        )}
-        {embed && song.media_provider && (
-          <section>
-            <h2>Have a listen</h2>
-            <div className={song.media_provider === "youtube" || song.media_provider === "vimeo" ? styles.video : styles.audio}>
-              <iframe
-                src={embed}
-                title={`${song.title} on ${PROVIDER_LABEL[song.media_provider]}`}
-                loading="lazy"
-                allow="encrypted-media; picture-in-picture; fullscreen"
-                referrerPolicy="strict-origin-when-cross-origin"
-                sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-              />
-            </div>
-          </section>
-        )}
-        {(song.origin || song.credit_name) && (
-          <section>
-            <h2>Where it&rsquo;s from</h2>
-            {song.origin && <p className={styles.pre}>{song.origin}</p>}
-            {song.credit_name && <p className={styles.credit}>Sent in by {song.credit_name}</p>}
-          </section>
-        )}
-        <p className={styles.report}>
-          <Icon name="flag" size={18} /> <Link href={`/songs/${song.slug}/report`}>Report a problem with this song</Link>
-        </p>
-      </aside>
+        <aside className={styles.side}>
+          {song.chords && (
+            <section className="card">
+              <h2>Chords</h2>
+              <p className={styles.pre}>{song.chords}</p>
+            </section>
+          )}
+          {song.actions && (
+            <section className="card">
+              <h2>How to lead it</h2>
+              <p className={styles.pre}>{song.actions}</p>
+            </section>
+          )}
+          {embed && song.media_provider && (
+            <section>
+              <h2 className="visually-hidden">Listen</h2>
+              <div className={`${styles.media} ${isVideo ? styles.video : styles.audio}`}>
+                <iframe
+                  src={embed}
+                  title={`${song.title} on ${PROVIDER_LABEL[song.media_provider]}`}
+                  loading="lazy"
+                  allow="encrypted-media; picture-in-picture; fullscreen"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                />
+              </div>
+            </section>
+          )}
+          {(song.origin || song.credit_name) && (
+            <section className="card">
+              <h2>Where it&rsquo;s from</h2>
+              {song.origin && <p className={styles.pre}>{song.origin}</p>}
+              {song.credit_name && <p className={styles.credit}>Sent in by {song.credit_name}</p>}
+            </section>
+          )}
+          <p className={styles.report}>
+            <Link href={`/songs/${song.slug}/report`}>Report a problem with this song</Link>
+          </p>
+        </aside>
+      </div>
     </article>
   );
 }

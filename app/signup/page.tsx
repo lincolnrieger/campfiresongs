@@ -9,12 +9,12 @@ export const metadata: Metadata = { title: "Make an account" };
 export default function SignUp() {
   return (
     <div className={`wrap page ${styles.split}`}>
-      <div>
+      <div className="card">
         <h1>Make an account</h1>
         <p className="lede">You don&rsquo;t need one to sing or to send in songs. It&rsquo;s just for saving favourites and keeping track of what you&rsquo;ve sent.</p>
         <SignUpForm siteKey={getEnv().TURNSTILE_SITE_KEY} />
       </div>
-      <aside className={styles.aside}>
+      <aside className={`card ${styles.aside}`}>
         <h2>What we keep</h2>
         <p>Your email, a scrambled version of your password, and a display name if you give one. That&rsquo;s it.</p>
         <p>No profiles, no messages, nothing anyone else can see except the name on songs you send in.</p>

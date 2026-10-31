@@ -11,8 +11,14 @@ import type { EmailContent } from "./templates";
 export async function sendEmail(to: string, content: EmailContent, replyTo?: string) {
   const env = getEnv();
   if (!env.EMAIL) {
-    console.log(`\n--- email (dev, not sent) ---\nSubject: ${content.subject}\n\n${content.text}\n---\n`);
-    return true;
+    if (/^http:\/\/localhost(:\d+)?$/.test(env.APP_URL ?? "")) {
+      console.log(`\n--- email (dev, not sent) ---\nSubject: ${content.subject}\n\n${content.text}\n---\n`);
+      return true;
+    } else {
+      // Production without the EMAIL binding: say so, but never log the contents (they hold links and addresses).
+      console.warn("[email] Not sent: the EMAIL binding isn't set up yet. See README, step 'Email: sending'.");
+    }
+    return false;
   }
   try {
     await env.EMAIL.send({

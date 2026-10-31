@@ -15,7 +15,7 @@ export function DecisionForms({ submission }: { submission: Submission }) {
   const [s2, editAction, pending2] = useActionState<FormState, FormData>(decide, {});
   return (
     <>
-      <form action={action} className={styles.decide} noValidate key={`a${s.attempt ?? 0}`}>
+      <form action={action} className={`card ${styles.decide}`} noValidate key={`a${s.attempt ?? 0}`}>
         <h2>Your call</h2>
         <ErrorSummary errors={s.errors} message={s.message} labels={{ note: "Note" }} />
         <input type="hidden" name="id" value={submission.id} />
@@ -38,7 +38,7 @@ export function DecisionForms({ submission }: { submission: Submission }) {
         </div>
       </form>
 
-      <details className={`${styles.decide} ${styles.editor}`} open={!!s2.attempt}>
+      <details className={`card ${styles.decide} ${styles.editor}`} open={!!s2.attempt}>
         <summary>Fix and approve</summary>
         <p className="hint">Tidy up typos or formatting, then approve. The original stays in the activity log.</p>
         <form action={editAction} noValidate key={`e${s2.attempt ?? 0}`}>

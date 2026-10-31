@@ -11,7 +11,7 @@ import { removeAccount } from "./actions";
 import { ProfileForm } from "./ProfileForm";
 import styles from "./account.module.css";
 
-export const metadata: Metadata = { title: "Your stuff", robots: { index: false } };
+export const metadata: Metadata = { title: "My account", robots: { index: false } };
 
 export default async function Account({ searchParams }: { searchParams: Promise<{ welcome?: string; reset?: string; confirm?: string }> }) {
   const user = await getUser();
@@ -21,7 +21,7 @@ export default async function Account({ searchParams }: { searchParams: Promise<
   return (
     <div className={`wrap page ${styles.layout}`}>
       <div className={styles.main}>
-        <h1>{user.display_name ? `G'day, ${user.display_name}` : "Your stuff"}</h1>
+        <h1>{user.display_name ? `Hi, ${user.display_name}` : "My account"}</h1>
         {sp.welcome && <p className="notice" role="status">You&rsquo;re all set up. Welcome to the fire.</p>}
         {sp.reset && <p className="notice" role="status">Password changed. You&rsquo;ve been signed out everywhere else.</p>}
 
@@ -33,11 +33,13 @@ export default async function Account({ searchParams }: { searchParams: Promise<
               <Link href="/songs">Have a look through the bank.</Link>
             </p>
           ) : (
-            <ul className={styles.list}>
+            <ul className={`song-list ${styles.list}`}>
               {saved.map((s) => (
                 <li key={s.id}>
-                  <Link href={`/songs/${s.slug}`}>{s.title}</Link>
-                  <span>{labelFor(ENERGIES, s.energy)}</span>
+                  <Link href={`/songs/${s.slug}`}>
+                    <strong>{s.title}</strong>
+                    <span className="meta">{labelFor(ENERGIES, s.energy)}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -52,7 +54,7 @@ export default async function Account({ searchParams }: { searchParams: Promise<
       </div>
 
       <aside className={styles.side}>
-        <section aria-labelledby="you">
+        <section aria-labelledby="you" className="card">
           <h2 id="you">Your details</h2>
           <p className={styles.email}>Signed in as <strong>{user.email}</strong></p>
           <ProfileForm displayName={user.display_name ?? ""} showName={!!user.show_name} />
@@ -61,7 +63,7 @@ export default async function Account({ searchParams }: { searchParams: Promise<
           </form>
         </section>
 
-        <section aria-labelledby="delete-h" id="delete" className={styles.danger}>
+        <section aria-labelledby="delete-h" id="delete" className={`card ${styles.danger}`}>
           <h2 id="delete-h">Delete your account</h2>
           <p>
             This deletes your account, your saved songs and any songs still waiting for review. Songs already in the bank

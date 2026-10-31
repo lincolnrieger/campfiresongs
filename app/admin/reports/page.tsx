@@ -19,11 +19,11 @@ export default async function Reports() {
       {reports.length === 0 && <p className="lede">No reports. Good news.</p>}
       <ul style={{ listStyle: "none", padding: 0, maxWidth: "48rem" }}>
         {reports.map((r) => (
-          <li key={r.id} style={{ padding: "1rem 0", borderBottom: "1px dashed rgb(184 174 163 / 0.25)", opacity: r.resolved_at ? 0.6 : 1 }}>
-            <h2 style={{ fontSize: "var(--step-1)", marginBottom: "0.3rem" }}>
+          <li key={r.id} style={{ padding: "1rem 0", borderBottom: "1px dashed var(--line)", opacity: r.resolved_at ? 0.6 : 1 }}>
+            <h2 style={{ fontSize: "1.15rem", marginBottom: "0.3rem" }}>
               {r.slug ? <Link href={`/songs/${r.slug}`}>{r.song_title}</Link> : r.song_title}
             </h2>
-            <p style={{ color: "var(--ash)", fontSize: "var(--step--1)", margin: 0 }}>
+            <p style={{ color: "var(--muted)", fontSize: "0.93rem", margin: 0 }}>
               {labelFor(REPORT_REASONS, r.reason)} · {new Date(r.created_at).toLocaleString("en-AU")}
               {r.resolved_at ? " · closed" : ""}
             </p>

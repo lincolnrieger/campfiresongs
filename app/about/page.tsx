@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Icon } from "@/components/ui/Icon";
 import { site } from "@/config/site";
 import styles from "./about.module.css";
 
@@ -38,11 +37,6 @@ export default function About() {
           to join the review team, or you&rsquo;ve spotted something wrong, <Link href="/contact">get in touch</Link>.
         </p>
       </div>
-      <aside className={styles.side} aria-hidden="true">
-        <Icon name="tent" size={120} className={styles.tent} />
-        <p className={styles.quote}>&ldquo;One more song, then bed.&rdquo;</p>
-        <p className={styles.cite}>Every leader, every camp, ever</p>
-      </aside>
     </div>
   );
 }

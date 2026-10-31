@@ -92,3 +92,38 @@ describe("redirects after sign in", () => {
     expect(safeNext("/\\evil.com")).toBe("/account");
   });
 });
+
+describe("automatic migrations", () => {
+  it("build the whole schema on an empty database, once", async () => {
+    const { DatabaseSync } = await import("node:sqlite");
+    const { ensureMigrated, splitSql } = await import("@/lib/migrate");
+    const raw = new DatabaseSync(":memory:");
+    const d1 = {
+      prepare(sql: string) {
+        const stmt = (args: unknown[]) => ({
+          bind: (...a: unknown[]) => stmt(a),
+          run: async () => raw.prepare(sql).run(...(args as never[])),
+          all: async () => ({ results: raw.prepare(sql).all(...(args as never[])) }),
+          first: async () => raw.prepare(sql).get(...(args as never[])) ?? null,
+        });
+        return stmt([]);
+      },
+      async batch(stmts: { run: () => Promise<unknown> }[]) {
+        raw.exec("BEGIN");
+        try {
+          for (const s of stmts) await s.run();
+          raw.exec("COMMIT");
+        } catch (e) {
+          raw.exec("ROLLBACK");
+          throw e;
+        }
+      },
+    } as unknown as D1Database;
+    await ensureMigrated(d1);
+    const tables = raw.prepare("SELECT name FROM sqlite_master WHERE type IN ('table','trigger') ORDER BY name").all().map((r) => (r as { name: string }).name);
+    for (const t of ["users", "songs", "songs_fts", "submissions", "audit_log", "audit_log_no_delete", "songs_au", "d1_migrations"]) {
+      expect(tables).toContain(t);
+    }
+    expect(splitSql("CREATE TRIGGER t AFTER INSERT ON a BEGIN\n  INSERT INTO b VALUES (1);\n  INSERT INTO b VALUES (2);\nEND;\nSELECT 1;").length).toBe(2);
+  });
+});

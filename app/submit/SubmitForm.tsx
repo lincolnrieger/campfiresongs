@@ -5,7 +5,6 @@ import { useFormStatus } from "react-dom";
 import { ErrorSummary, ErrorText, Honeypot, TextField } from "@/components/forms/fields";
 import { SongFields } from "@/components/forms/SongFields";
 import { Turnstile } from "@/components/forms/Turnstile";
-import { Icon } from "@/components/ui/Icon";
 import { str, type FormState } from "@/lib/forms";
 import { submitSong } from "./actions";
 import styles from "./submit.module.css";
@@ -28,10 +27,9 @@ export const LABELS: Record<string, string> = {
 
 function Send() {
   const { pending } = useFormStatus();
-  const burst = () => window.dispatchEvent(new CustomEvent("campfire:burst", { detail: { strength: 1 } }));
   return (
-    <button className="btn" type="submit" disabled={pending} onClick={burst}>
-      {pending ? "Sending…" : (<><Icon name="arrow" size={20} /> Send it to the reviewers</>)}
+    <button className="btn" type="submit" disabled={pending}>
+      {pending ? "Sending…" : "Send it in"}
     </button>
   );
 }

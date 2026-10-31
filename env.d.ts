@@ -18,3 +18,4 @@ declare namespace Cloudflare {
     TURNSTILE_DEV_BYPASS?: string;
   }
 }
+declare module "*.sql?raw" { const sql: string; export default sql; }

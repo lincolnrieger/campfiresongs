@@ -23,7 +23,7 @@
 }
 
 .status {
-  color: var(--ash);
+  color: #c9bfb6;
   font-size: 0.85rem;
 }
 
@@ -39,7 +39,7 @@
   min-width: 52px;
   min-height: 52px;
   justify-content: center;
-  font: 700 1.05rem var(--font-body);
+  font: 700 1.05rem var(--font);
   color: #fff8ec;
   background: #1c161d;
   border: 1px solid rgb(255 179 71 / 0.45);
@@ -61,9 +61,8 @@
 
 .title {
   font-size: 1.1em;
-  color: var(--flame);
-  text-shadow: none;
-  margin-bottom: 0.8em;
+  color: #ffb347;
+    margin-bottom: 0.8em;
 }
 
 .words,
@@ -80,12 +79,12 @@
 .sub {
   margin-top: 1.5em;
   font-size: 0.7em;
-  color: var(--flame);
+  color: #ffb347;
 }
 
 .chords {
   font-size: 0.75em;
-  color: var(--glow);
+  color: #ffd9a0;
 }
 
 /* A calm glow at the bottom edge, so it still feels like a fire's nearby. */
@@ -97,5 +96,4 @@
   height: 22vh;
   pointer-events: none;
   background: radial-gradient(ellipse 70% 100% at 50% 120%, rgb(242 107 29 / 0.35), transparent 70%);
-  opacity: calc(0.5 + var(--fire-light) * 0.4);
 }

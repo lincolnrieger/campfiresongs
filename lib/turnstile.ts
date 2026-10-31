@@ -7,7 +7,10 @@ export async function verifyTurnstile(token: FormDataEntryValue | null, ip: stri
   // Local development only: both flags must be set, and only for a localhost APP_URL.
   if (env.TURNSTILE_DEV_BYPASS === "1" && /^http:\/\/localhost(:\d+)?$/.test(env.APP_URL ?? "")) return true;
   if (typeof token !== "string" || !token || token.length > 2048) return false;
-  const secret = env.TURNSTILE_SECRET_KEY;
+  // Until real keys are set, the public test site key pairs with Cloudflare's
+  // test secret so forms still work on a fresh deploy. Set real keys before launch.
+  const secret =
+    env.TURNSTILE_SECRET_KEY || (env.TURNSTILE_SITE_KEY === "1x00000000000000000000AA" ? "1x0000000000000000000000000000000AA" : "");
   if (!secret) return false;
   try {
     const body = new FormData();

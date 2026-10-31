@@ -31,7 +31,7 @@ export default async function ReviewOne({ params }: { params: Promise<{ id: stri
       <div>
         <p><Link href="/review">Back to the queue</Link></p>
         <h1>{s.title}</h1>
-        <dl className={styles.fields}>
+        <dl className={`card ${styles.fields}`}>
           <div>
             <dt>Words</dt>
             <dd className={styles.lyrics}>{s.lyrics}</dd>

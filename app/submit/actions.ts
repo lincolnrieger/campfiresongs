@@ -48,7 +48,12 @@ export async function submitSong(prev: FormState, form: FormData): Promise<FormS
       await sendEmail(user.email, submissionReceivedEmail(data.title));
     } else {
       const token = await issueToken(db(), "confirm_submission", CONFIRM_LINK_TTL, { submissionId: id });
-      await sendEmail(email!, confirmSubmissionEmail(data.title, `${appUrl()}/submit/confirm?token=${token}`));
+      const sent = await sendEmail(email!, confirmSubmissionEmail(data.title, `${appUrl()}/submit/confirm?token=${token}`));
+      if (!sent) {
+        // Without the confirm email this would sit unconfirmed forever, so don't keep it.
+        await db().prepare("DELETE FROM submissions WHERE id = ? AND status = 'unconfirmed'").bind(id).run();
+        return fail({ message: "We couldn't send the confirmation email just now, so your song wasn't saved. Please try again a bit later." });
+      }
     }
   } catch (err) {
     logError("submit", err);

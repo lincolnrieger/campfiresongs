@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SparkToStar } from "@/components/sky/SparkToStar";
+import { Flame } from "@/components/ui/Flame";
 
 export const metadata: Metadata = { title: "Thanks", robots: { index: false } };
 
@@ -8,8 +8,8 @@ export default async function Thanks({ searchParams }: { searchParams: Promise<{
   const sp = await searchParams;
   const check = sp.check === "email";
   return (
-    <div className="wrap page">
-      <SparkToStar />
+    <div className="wrap page" style={{ maxWidth: "44rem" }}>
+      <Flame size={56} />
       <h1>{check ? "Nearly there. Check your email." : "Thanks! Your song's on its way."}</h1>
       {check ? (
         <>
@@ -27,7 +27,6 @@ export default async function Thanks({ searchParams }: { searchParams: Promise<{
               : "Your song is now with the review team."}{" "}
             We&rsquo;ll email you once they&rsquo;ve had a look.
           </p>
-          <p>That spark you just saw is your song, up there with the others while it waits.</p>
         </>
       )}
       <p>

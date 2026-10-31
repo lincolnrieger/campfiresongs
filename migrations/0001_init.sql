@@ -4,7 +4,6 @@
 -- server-only data layer in lib/data, which checks the caller's role on every
 -- call. The database itself is only reachable from the Worker.
 
-PRAGMA foreign_keys = ON;
 
 -- People with accounts. Role is checked on the server for every request.
 CREATE TABLE users (
