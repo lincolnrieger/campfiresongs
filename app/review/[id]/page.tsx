@@ -45,7 +45,7 @@ export default async function ReviewOne({ params }: { params: Promise<{ id: stri
           <Row label="Where it's from" value={s.origin} />
           <Row label="Name to show" value={s.credit_name} />
           <Row label="Notes for reviewers" value={s.notes} />
-          <Row label="Sent" value={`${new Date(s.created_at).toLocaleString("en-AU")} · ${s.user_id ? "from an account" : "without an account (email confirmed)"}`} />
+          <Row label="Sent" value={`${new Date(s.created_at).toLocaleString("en-AU")}`} />
         </dl>
       </div>
       <div>

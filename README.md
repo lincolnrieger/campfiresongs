@@ -1,7 +1,7 @@
 # CampfireSongs
 
-A bank of campfire songs. Anyone can send one in, a youth review team checks it, and approved songs go in the bank for
-everyone. Accounts are optional and only for saving songs and tracking what you've sent.
+A bank of campfire songs. Anyone can browse and sing them. People sign in to add a song, a youth review team checks
+it, and approved songs go in the bank for everyone. Accounts also let people save favourites.
 
 Lives at **campfiresongs.org**. The name and domain are set in one place: [`config/site.ts`](config/site.ts).
 
@@ -133,7 +133,7 @@ Sign out and back in. You'll see **Admin** in the menu, where you can add review
 - [ ] `TURNSTILE_DEV_BYPASS` and `APP_URL` **not** set in production
 - [ ] Email Sending onboarded; SPF and DKIM showing as verified; DMARC added; `send_email` uncommented
 - [ ] Email Routing forwards `hello@` to a real inbox; send a test via the Contact page
-- [ ] Send a test song without an account; confirm link arrives and works; "received" email arrives
+- [ ] Sign up, add a test song; the "received" email arrives
 - [ ] Sign up, confirm, log in, reset password, magic link all work
 - [ ] You're admin; at least one other reviewer added; approve and reject a test song; both emails arrive
 - [ ] Report a test song; email arrives at `hello@`; take it down and put it back up

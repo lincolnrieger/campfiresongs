@@ -89,7 +89,7 @@ export default async function Songs({ searchParams }: { searchParams: Promise<SP
                     <strong>{s.title}</strong>
                     <span className={styles.firstLine}>{s.lyrics.split("\n").find((l) => l.trim()) ?? ""}</span>
                   </span>
-                  <span className="meta">{labelFor(ENERGIES, s.energy)}</span>
+                  <span className="tag" data-energy={s.energy}>{labelFor(ENERGIES, s.energy)}</span>
                 </Link>
               </li>
             ))}

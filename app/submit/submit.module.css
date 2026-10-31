@@ -1,55 +1,27 @@
 .layout {
-  max-width: 46rem;
+  max-width: 44rem;
   margin-inline: auto;
-}
-
-.intro {
-  margin-bottom: var(--space-4);
-}
-
-.tips {
-  margin: var(--space-3) 0;
-  padding-left: 1.2em;
-  color: var(--muted);
-}
-
-.tips li {
-  margin-bottom: var(--space-1);
-}
-
-.who {
-  color: var(--muted);
 }
 
 .form {
   min-width: 0;
 }
 
-.group {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: var(--space-4) var(--space-4) var(--space-2);
-  margin-bottom: var(--space-3);
+.gate {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.group h2 {
-  font-size: 1.25rem;
-  margin-bottom: var(--space-3);
+.gate p {
+  margin-inline: auto;
 }
 
-.lyrics {
-  font-size: 1.05rem;
-  line-height: 1.7;
-}
-
-.group button[type="submit"] {
-  margin-bottom: var(--space-3);
-}
-
-@media (max-width: 600px) {
-  .group {
-    padding: var(--space-3) var(--space-3) var(--space-1);
-  }
+.gateButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: 0;
 }

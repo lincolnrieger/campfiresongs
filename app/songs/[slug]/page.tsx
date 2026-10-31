@@ -38,7 +38,7 @@ export default async function SongPage({ params, searchParams }: Props) {
         </p>
         <h1>{song.title}</h1>
         <ul className={styles.tags} aria-label="About this song">
-          <li>{labelFor(ENERGIES, song.energy)} energy</li>
+          <li className="tag" data-energy={song.energy}>{labelFor(ENERGIES, song.energy)} energy</li>
           {song.categories.map((c) => <li key={c}>{labelFor(CATEGORIES, c)}</li>)}
           <li>{song.sections.map((s) => labelFor(SECTIONS, s)).join(", ")}</li>
         </ul>

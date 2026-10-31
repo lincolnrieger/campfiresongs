@@ -38,7 +38,7 @@ export default async function Account({ searchParams }: { searchParams: Promise<
                 <li key={s.id}>
                   <Link href={`/songs/${s.slug}`}>
                     <strong>{s.title}</strong>
-                    <span className="meta">{labelFor(ENERGIES, s.energy)}</span>
+                    <span className="tag" data-energy={s.energy}>{labelFor(ENERGIES, s.energy)}</span>
                   </Link>
                 </li>
               ))}

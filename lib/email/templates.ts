@@ -30,14 +30,6 @@ function build(subject: string, paras: (string | { link: string; label: string }
   return { subject, text, html };
 }
 
-export const confirmSubmissionEmail = (title: string, link: string) =>
-  build(`Confirm your song: ${title}`, [
-    `Thanks for sending in "${title}".`,
-    "Before it goes to our review team, please confirm it was you. The link works once and runs out in 24 hours.",
-    { link, label: "Confirm my song" },
-    "If you didn't send a song, just ignore this email and it'll be deleted in a week.",
-  ]);
-
 export const submissionReceivedEmail = (title: string) =>
   build(`We've got your song: ${title}`, [
     `"${title}" is now with our review team.`,

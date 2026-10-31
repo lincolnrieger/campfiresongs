@@ -1,8 +1,7 @@
 .footer {
   margin-top: var(--space-6);
-  background: var(--surface);
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  background: #16231d;
+  color: var(--on-forest-muted);
   font-size: 0.95rem;
 }
 
@@ -28,5 +27,13 @@
 }
 
 .footer a {
-  color: var(--muted);
+  color: var(--on-forest);
+}
+
+.footer a:hover {
+  color: var(--amber);
+}
+
+.footer :focus-visible {
+  outline-color: var(--amber);
 }

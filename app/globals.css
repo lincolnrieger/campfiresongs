@@ -1,31 +1,42 @@
-/* CampfireSongs: light, warm, rounded and simple.
+/* CampfireSongs: cosy and warm, like a camp at dusk.
    Every text colour below passes WCAG AA on the backgrounds it's used on. */
 
 @font-face {
   font-family: "Nunito";
   src: url("/fonts/nunito-latin-wght-normal.woff2") format("woff2");
   font-weight: 200 1000;
-  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin-soft-normal.woff2") format("woff2");
+  font-weight: 100 900;
   font-display: swap;
 }
 
 :root {
-  --bg: #fbf6ef;
-  --surface: #ffffff;
-  --text: #2b2420;      /* 14.2:1 on bg */
-  --muted: #6b5f56;     /* 5.8:1 on bg, 6.2:1 on white */
-  --line: #ebe1d5;
-  --accent: #c2501c;    /* white text on it: 4.7:1 */
-  --accent-ink: #a8410f; /* links: 5.7:1 on bg, 6.1:1 on white */
-  --accent-soft: #fde9dc;
-  --danger: #b42318;    /* 6.6:1 on white */
-  --ok: #2f6b2f;        /* 6.4:1 on white */
+  --bg: #f7efe2;          /* warm canvas */
+  --surface: #fffaf2;
+  --text: #2a1f19;        /* 14.1:1 on bg */
+  --muted: #6a5a4e;       /* 5.8:1 on bg */
+  --line: #e8dacb;
+  --accent: #c4531e;      /* ember. White text on it: 4.6:1 */
+  --accent-ink: #a3420f;  /* links: 5.5:1 on bg */
+  --accent-soft: #fbdccb;
+  --amber: #f2b45a;       /* 7.6:1 on forest */
+  --forest: #1f3027;      /* the night band */
+  --forest-2: #2b4034;
+  --on-forest: #f7efe2;   /* 12.2:1 on forest */
+  --on-forest-muted: #c9d4c9; /* 9.1:1 on forest */
+  --danger: #b42318;
+  --ok: #2f5a35;
 
   --font: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-head: "Fraunces", Georgia, serif;
 
-  --radius: 18px;
+  --radius: 20px;
   --radius-sm: 12px;
-  --shadow: 0 1px 2px rgb(43 36 32 / 0.05), 0 4px 16px rgb(43 36 32 / 0.05);
+  --shadow: 0 1px 2px rgb(42 31 25 / 0.05), 0 6px 20px rgb(42 31 25 / 0.06);
 
   --space-1: 0.375rem;
   --space-2: 0.75rem;
@@ -72,14 +83,16 @@ main {
 h1,
 h2,
 h3 {
-  font-weight: 800;
-  line-height: 1.15;
+  font-family: var(--font-head);
+  font-variation-settings: "SOFT" 100;
+  font-weight: 650;
+  line-height: 1.12;
   letter-spacing: -0.01em;
   margin: 0 0 var(--space-3);
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.7rem); }
+h1 { font-size: clamp(2rem, 1.5rem + 2vw, 2.9rem); }
 h2 { font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.65rem); }
 h3 { font-size: 1.15rem; }
 
@@ -268,7 +281,7 @@ select {
   font: inherit;
   color: var(--text);
   background: var(--surface);
-  border: 1.5px solid #ddd1c3;
+  border: 1.5px solid #dccbb8;
   border-radius: var(--radius-sm);
   padding: 0.65em 0.9em;
   min-height: 46px;
@@ -285,7 +298,7 @@ textarea:focus-visible,
 select:focus-visible {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgb(194 80 28 / 0.18);
+  box-shadow: 0 0 0 4px rgb(196 83 30 / 0.18);
 }
 
 [aria-invalid="true"] {
@@ -322,7 +335,7 @@ fieldset {
   gap: 0.45em;
   min-height: 42px;
   padding: 0.4em 1em;
-  border: 1.5px solid #ddd1c3;
+  border: 1.5px solid #dccbb8;
   border-radius: 999px;
   background: var(--surface);
   cursor: pointer;
@@ -441,7 +454,7 @@ fieldset {
 }
 
 .song-list a:hover {
-  background: #fdf8f2;
+  background: #fdf3e6;
 }
 
 .song-list strong {
@@ -464,3 +477,18 @@ fieldset {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Energy tags: calm is green, medium amber, high ember. */
+.tag {
+  display: inline-block;
+  padding: 0.15em 0.75em;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: #efe4d6;
+  color: var(--muted);
+}
+.tag[data-energy="calm"] { background: #e3eedf; color: #2f5a35; }
+.tag[data-energy="medium"] { background: #fcebc8; color: #7a4a05; }
+.tag[data-energy="high"] { background: #fbdccb; color: #9a3510; }
