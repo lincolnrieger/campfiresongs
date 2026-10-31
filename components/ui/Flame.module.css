@@ -1,0 +1,32 @@
+.flame {
+  display: inline-block;
+  flex: none;
+}
+
+.flame svg {
+  overflow: visible;
+}
+
+.outer {
+  fill: #e8692a;
+  transform-origin: 50% 90%;
+  animation: flicker 1.8s ease-in-out infinite;
+}
+
+.inner {
+  fill: #ffc65c;
+  transform-origin: 50% 90%;
+  animation: flicker 1.2s ease-in-out infinite reverse;
+}
+
+.still .outer,
+.still .inner {
+  animation: none;
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  25% { transform: scale(0.97, 1.04) skewX(-2deg); }
+  50% { transform: scale(1.02, 0.97) skewX(1.5deg); }
+  75% { transform: scale(0.98, 1.03) skewX(-1deg); }
+}

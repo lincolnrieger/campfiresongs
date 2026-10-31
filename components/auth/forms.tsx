@@ -33,7 +33,7 @@ function PasswordField({ errors, label = "Password", autoComplete, hint }: { err
         aria-invalid={err || undefined}
         aria-describedby={[hint ? "password-hint" : "", err ? "password-error" : ""].filter(Boolean).join(" ") || undefined}
       />
-      <label className="check" style={{ marginTop: "var(--space-2)", fontSize: "var(--step--1)" }}>
+      <label className="check" style={{ marginTop: "var(--space-2)", fontSize: "0.93rem" }}>
         <input type="checkbox" checked={show} onChange={(e) => setShow(e.target.checked)} /> Show password
       </label>
       <ErrorText name="password" errors={errors} />
@@ -86,7 +86,7 @@ export function LoginForm({ next }: { next: string }) {
       <input type="hidden" name="next" value={next} />
       <TextField name="email" type="email" label="Email" autoComplete="email" maxLength={254} defaultValue={str(v.email)} errors={s.errors} />
       <PasswordField errors={s.errors} autoComplete="current-password" />
-      <p style={{ fontSize: "var(--step--1)" }}>
+      <p style={{ fontSize: "0.93rem" }}>
         <Link href="/reset">Forgotten your password?</Link>
       </p>
       <Go>Sign in</Go>

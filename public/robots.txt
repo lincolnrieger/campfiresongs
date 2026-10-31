@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /fire
 Disallow: /review
 Disallow: /admin
 Disallow: /account

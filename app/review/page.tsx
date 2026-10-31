@@ -26,24 +26,24 @@ export default async function Review({ searchParams }: { searchParams: Promise<{
           </p>
         )}
         {queue.length === 0 ? (
-          <p className="lede">The queue&rsquo;s empty. Time to put the billy on.</p>
+          <p className="lede">The queue&rsquo;s empty. Nothing to check right now.</p>
         ) : (
           <>
             <p className="lede">{queue.length} song{queue.length === 1 ? "" : "s"} waiting, oldest first.</p>
-            <ol className={styles.queue}>
+            <ol className={`song-list ${styles.queue}`}>
               {queue.map((s) => (
                 <li key={s.id}>
-                  <Link href={`/review/${s.id}`}>{s.title}</Link>
-                  <span>
-                    sent {ago(s.created_at)} · {s.user_id ? "account" : "no account"}
-                  </span>
+                  <Link href={`/review/${s.id}`}>
+                    <strong>{s.title}</strong>
+                    <span className="meta">sent {ago(s.created_at)}</span>
+                  </Link>
                 </li>
               ))}
             </ol>
           </>
         )}
       </div>
-      <aside className={styles.side}>
+      <aside className={`card ${styles.side}`}>
         <h2>Lately</h2>
         {recent.length === 0 ? (
           <p className={styles.muted}>Nothing reviewed yet.</p>

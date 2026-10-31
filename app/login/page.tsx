@@ -11,7 +11,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
   const next = safeNext(sp.next);
   return (
     <div className={`wrap page ${styles.split}`}>
-      <div>
+      <div className="card">
         <h1>Sign in</h1>
         {sp.link === "expired" && (
           <p className="notice notice-error" role="alert">That sign-in link has run out or been used. Ask for a new one.</p>
@@ -21,7 +21,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
           New here? <Link href="/signup">Make an account</Link>.
         </p>
       </div>
-      <aside className={styles.aside}>
+      <aside className={`card ${styles.aside}`}>
         <h2>No password? No worries.</h2>
         <p>We can email you a link that signs you straight in.</p>
         <MagicForm next={next} />

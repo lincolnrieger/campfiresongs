@@ -29,7 +29,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "start": "wrangler dev --config dist/server/wrangler.json --persist-to .wrangler/state --env-file .dev.vars",
-    "deploy": "wrangler d1 migrations apply campfiresongs --remote && vinext-cloudflare deploy --config dist/server/wrangler.json",
+    "deploy": "wrangler deploy",
     "db:migrate:local": "wrangler d1 migrations apply campfiresongs --local --persist-to .wrangler/state",
     "db:migrate": "wrangler d1 migrations apply campfiresongs --remote",
     "typecheck": "tsc --noEmit",
@@ -38,5 +38,8 @@
   },
   "overrides": {
     "fflate": "0.8.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

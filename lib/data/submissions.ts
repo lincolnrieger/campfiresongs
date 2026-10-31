@@ -256,7 +256,8 @@ export async function rejectSubmission(db: D1Database, actor: Actor, id: string,
       .prepare("UPDATE submissions SET status = 'rejected', review_note = ?, reviewed_by = ?, reviewed_at = ?, updated_at = ? WHERE id = ? AND status = 'pending'")
       .bind(note, actor.id, t, t, id),
     auditIfStmt(db, actor, "submission.reject", "submission", id, { title: s.title },
-      "SELECT 1 FROM submissions WHERE id = ? AND status = 'rejected' AND reviewed_at = ?", [id, t]),
+      // changes() is the row count of the UPDATE just before it in this batch.
+      "SELECT 1 WHERE changes() > 0", []),
   ]);
   if (!r.meta.changes) throw new Forbidden("Already reviewed");
   return { submission: s, notify: await notifyAddress(db, s) };

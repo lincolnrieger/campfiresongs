@@ -48,14 +48,19 @@ export async function signUp(prev: FormState, form: FormData): Promise<FormState
   }
   try {
     const existing = await findUserByEmail(db(), email);
+    let sent: boolean;
     if (existing) {
       // Same response either way, so nobody can find out who has an account.
       const base = appUrl();
-      await sendEmail(email, alreadyRegisteredEmail(`${base}/login`, `${base}/reset`));
+      sent = await sendEmail(email, alreadyRegisteredEmail(`${base}/login`, `${base}/reset`));
     } else {
       const id = await createUser(db(), email, await hashPassword(password, iterations()), displayName);
       const token = await issueToken(db(), "verify", VERIFY_LINK_TTL, { userId: id });
-      await sendEmail(email, verifyEmail(`${appUrl()}/auth/verify?token=${token}`));
+      sent = await sendEmail(email, verifyEmail(`${appUrl()}/auth/verify?token=${token}`));
+      if (!sent) await db().prepare("DELETE FROM users WHERE id = ? AND email_verified_at IS NULL").bind(id).run();
+    }
+    if (!sent) {
+      return { message: "We couldn't send the confirmation email just now. Please try again a bit later.", values, attempt };
     }
   } catch (err) {
     logError("signup", err);

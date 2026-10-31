@@ -26,9 +26,9 @@ export default async function Log() {
       <p><Link href="/review">Back to the queue</Link></p>
       <h1>Activity log</h1>
       <p className="lede">Every review and admin action, newest first. Nothing here can be changed or deleted.</p>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--step--1)" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.93rem" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--glow)" }}>
+          <tr style={{ textAlign: "left", color: "var(--text)" }}>
             <th scope="col">When</th>
             <th scope="col">Who</th>
             <th scope="col">What</th>
@@ -42,7 +42,7 @@ export default async function Log() {
               detail = d.title ? `“${d.title}”` : d.who ?? "";
             } catch {}
             return (
-              <tr key={r.id} style={{ borderBottom: "1px dashed rgb(184 174 163 / 0.25)" }}>
+              <tr key={r.id} style={{ borderBottom: "1px dashed var(--line)" }}>
                 <td style={{ padding: "0.5rem 0.75rem 0.5rem 0", whiteSpace: "nowrap" }}>{new Date(r.created_at).toLocaleString("en-AU")}</td>
                 <td style={{ padding: "0.5rem 0.75rem 0.5rem 0" }}>{r.actor_label}</td>
                 <td style={{ padding: "0.5rem 0" }}>{ACTIONS[r.action] ?? r.action} {detail}</td>
